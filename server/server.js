@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('superagent')
 
-const routes = require('./routes')
+const cards = require('./routes/cards')
 
 const app = express()
 
@@ -12,6 +12,6 @@ app.use(express.static(path.join(__dirname, '../public')))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // Routes
-app.use('/', routes)
+app.use('/api/v1/cards/', cards)
 
 module.exports = app
