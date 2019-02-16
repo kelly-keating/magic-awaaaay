@@ -1,3 +1,4 @@
 node_modules
 scryfall-cards.json
-stringified-cards.json
+scryfall-sets.json
+data/cards*
