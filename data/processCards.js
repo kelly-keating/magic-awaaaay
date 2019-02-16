@@ -45,14 +45,17 @@ arr = arr.map(card => {
     return obj
 });
 
-const knex = require('knex')
-const config = require('../knexfile').development
 
-const db = knex(config)
+// const knex = require('knex')
+// const config = require('../knexfile').development
+// const db = knex(config)
 
-// arr.forEach(card => {
-//     console.log(card)
-//     db('cards').insert(card)
-// });
+// function loopIn (i) {
+//     if(i >= arr.length) knex.destroy()
+//     else {
+//         db('cards').insert(arr[i])
+//             .then(() => loopIn(i+1))
+//     }
+// }
 
-db('cards').insert(arr).then(thing => console.log(thing))
+// loopIn(0)

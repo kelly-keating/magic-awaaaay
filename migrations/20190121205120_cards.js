@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('cards', function (table) {
-        table.string('id').primary()
+        table.string('id')
         table.string('name')
         table.string('card_faces')
         table.string('cmc')
