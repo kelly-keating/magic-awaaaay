@@ -1,4 +1,7 @@
 node_modules
+yarn.lock
+
+# large data
 scryfall-cards.json
 scryfall-sets.json
 data/cards*
