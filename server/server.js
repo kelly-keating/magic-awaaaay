@@ -1,19 +1,18 @@
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const request = require('superagent')
 
 const cards = require('./routes/cards')
 const sets = require('./routes/sets')
 
-const app = express()
+const server = express()
 
 // Middleware
-app.use(express.static(path.join(__dirname, '../public')))
-app.use(bodyParser.urlencoded({ extended: false }))
+server.use(express.static(path.join(__dirname, '../public')))
+server.use(bodyParser.urlencoded({ extended: false }))
 
 // Routes
-app.use('/api/v1/cards/', cards)
-app.use('/api/v1/sets/', sets)
+server.use('/api/v1/cards/', cards)
+server.use('/api/v1/sets/', sets)
 
-module.exports = app
+module.exports = server
