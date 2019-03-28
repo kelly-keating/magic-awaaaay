@@ -7,16 +7,44 @@
   "author": "Kelly Keating <keating.kel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "dev": "nodemon --watch server & webpack --watch",
+    "postinstall": "webpack",
+    "reseed": "node data/processCards && node data/processSets"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
+    ]
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "fs": "^0.0.1-security",
     "knex": "^0.16.3",
     "path": "^0.12.7",
     "pg": "^7.8.0",
-    "sqlite3": "^4.0.6",
+    "react": "^16.8.6",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "superagent": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "fs": "^0.0.1-security",
+    "nodemon": "^1.18.10",
+    "sqlite3": "^4.0.6",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }

@@ -46,16 +46,21 @@ arr = arr.map(card => {
 });
 
 
-// const knex = require('knex')
-// const config = require('../knexfile').development
-// const db = knex(config)
+const knex = require('knex')
+const config = require('../knexfile').development
+const db = knex(config)
 
-// function loopIn (i) {
-//     if(i >= arr.length) knex.destroy()
-//     else {
-//         db('cards').insert(arr[i])
-//             .then(() => loopIn(i+1))
-//     }
-// }
+function loopIn (i) {
+    if(i >= arr.length) db.destroy()
+    else {
+        db('cards').insert(arr[i])
+            .then(() => loopIn(i+1))
+    }
+}
 
-// loopIn(0)
+function reseed() {
+    db('cards').delete()
+        .then(() => loopIn(0))
+}
+
+reseed()
