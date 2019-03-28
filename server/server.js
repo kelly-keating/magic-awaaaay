@@ -8,7 +8,7 @@ const sets = require('./routes/sets')
 const server = express()
 
 // Middleware
-server.use(express.static(path.join(__dirname, '../public')))
+server.use(express.static(path.join(__dirname, './public')))
 server.use(bodyParser.urlencoded({ extended: false }))
 
 // Routes
