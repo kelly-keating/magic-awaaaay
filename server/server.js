@@ -15,4 +15,12 @@ server.use(bodyParser.urlencoded({ extended: false }))
 server.use('/api/v1/cards/', cards)
 server.use('/api/v1/sets/', sets)
 
+server.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public/'), function(err) {
+        if (err) {
+        res.status(500).send(err)
+        }
+    })
+})
+
 module.exports = server

@@ -1,22 +1,14 @@
 import React from 'react'
 import { Router, Link } from "@reach/router"
 
-let Dash = () => <div>React development has begun!</div>
-let Home = () => (
-  <div>
-    <h1>Home</h1>
-    <nav>
-      <Link to="/">Home</Link> |{" "}
-      <Link to="dashboard">Dashboard</Link>
-    </nav>
-  </div>
-)
+import Dash from './Dash'
+import Sets from './Sets'
 
 const App = () => {
   return (
     <Router>
-      <Home path="/" />
-      <Dash path="dashboard" />
+      <Dash path="/" />
+      <Sets path='sets' />
     </Router>
   )
 }
