@@ -46,7 +46,7 @@ class Set extends React.Component {
                 {this.state.cards.map(card => this.renderCard(card))}   
             </section>
     
-            <Link to="/">Home</Link>
+            <Link to="/sets">Sets</Link> | <Link to="/">Home</Link>
         </>
     )}
 } 
