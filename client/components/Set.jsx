@@ -13,8 +13,25 @@ class Set extends React.Component {
     }
 
     componentDidMount () {
-        getCardsFromSet('ixalan')
-            .then(cards => console.log(cards))
+        getCardsFromSet(this.props.setName)
+            .then(cards => {
+                // console.log(cards[0])
+                this.setState({cards})
+            })
+    }
+
+    getImg(card, size) {
+        return JSON.parse(card.image_uris)[size]
+    }
+
+
+    renderCard (card) {
+        return (
+            <div style={{display: "inline-block", minWidth: "170px"}}>
+                <p>{card.name}</p>
+                {card.image_uris == undefined ? <p>nope</p> : <img src={this.getImg(card, "small")} />}
+            </div>
+        )
     }
 
     render () {
@@ -26,10 +43,7 @@ class Set extends React.Component {
             </section>
             
             <section>
-                <div>Card</div>
-                <div>Card</div>
-                <div>Card</div>
-                <div>Card</div>    
+                {this.state.cards.map(card => this.renderCard(card))}   
             </section>
     
             <Link to="/">Home</Link>
