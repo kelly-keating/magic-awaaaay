@@ -9,11 +9,14 @@ function getCards () {
 
 function getCardsFromSet (set) {
     return db('cards')
-        .where('set', set)
+        .where('set_name', set)
 }
 
 function getSets () {
     return db('sets')
+        .where('set_type', 'expansion')
+        .orWhere('set_type', 'core')
+
 }
 
 module.exports = {
