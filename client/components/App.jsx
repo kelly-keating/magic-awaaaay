@@ -13,7 +13,7 @@ const App = () => {
     <Router>
       <Dash path="/" />
       <Sets path='sets' />
-      <Set path='set/:setName' />
+      <Set path='sets/:setName' />
       <Cards path='cards' />
       <Collection path='my-collection' />
     </Router>

@@ -29,7 +29,7 @@ class Sets extends React.Component {
             </section>
             
             <section>
-                {this.state.sets.map(set => <p><Link to={"/set/" + set.name} >{set.name}</Link></p>)}    
+                {this.state.sets.map(set => <p><Link to={set.name} >{set.name}</Link></p>)}    
             </section>
     
             <Link to="/">Home</Link>
