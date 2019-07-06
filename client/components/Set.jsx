@@ -15,22 +15,28 @@ class Set extends React.Component {
     componentDidMount () {
         getCardsFromSet(this.props.setName)
             .then(cards => {
-                // console.log(cards[0])
                 this.setState({cards})
             })
     }
 
-    getImg(card, size) {
+    getImg (card, size) {
         return JSON.parse(card.image_uris)[size]
     }
 
+    renderBothFaces (card) {
+        let [one, two] = JSON.parse(card.card_faces)
+        return <><img src={one.image_uris.small} /> <img src={two.image_uris.small} /></>
+    }
 
-    renderCard (card) {
+
+    renderCard (card, i) {
         return (
-            <div style={{display: "inline-block", minWidth: "170px"}}>
+            <Link to={`/cards/${card.id}`}>
+            <div key={i} style={{display: "inline-block", minWidth: "170px"}}>
                 <p>{card.name}</p>
-                {card.image_uris == undefined ? <p>nope</p> : <img src={this.getImg(card, "small")} />}
+                {card.image_uris == undefined ? this.renderBothFaces(card) : <img src={this.getImg(card, 'small')} />}
             </div>
+            </Link>
         )
     }
 
@@ -43,7 +49,7 @@ class Set extends React.Component {
             </section>
             
             <section>
-                {this.state.cards.map(card => this.renderCard(card))}   
+                {this.state.cards.map((card, i) => this.renderCard(card, i))}   
             </section>
     
             <Link to="/sets">Sets</Link> | <Link to="/">Home</Link>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "@reach/router"
 
+import Block from './SetBlock'
 import { getAllSets } from "../api"
 
 
@@ -39,7 +40,6 @@ class Sets extends React.Component {
     }
 
     render () {
-        console.log(this.state)
         return (
         <>
             <section>
@@ -48,8 +48,8 @@ class Sets extends React.Component {
             </section>
             
             <section>
-                {this.state.core.length && this.renderBlock(["Core", this.state.core])}
-                {Object.entries(this.state.blocks).map(block => this.renderBlock(block))}    
+                {this.state.core.length ? <Block block={["Core", this.state.core]} /> : "loading"}
+                {Object.entries(this.state.blocks).map((block, i) => <Block key={i} block={block} />)}    
             </section>
     
             <Link to="/">Home</Link>

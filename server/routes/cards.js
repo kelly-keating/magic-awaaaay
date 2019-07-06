@@ -8,6 +8,11 @@ router.get('/', (req, res) => {
     .then((result) => res.json(result))
 })
 
+router.get('/single/:id', (req, res) => {
+  db.getCardById(req.params.id)
+    .then((result) => res.json(result))
+})
+
 router.get('/set/:set', (req, res) => {
   db.getCardsFromSet(req.params.set)
     .then((result) => res.json(result))
