@@ -1,3 +1,8 @@
+const request = require('superagent')
+const knex = require('knex')
+const config = require('../knexfile').development
+const db = knex(config)
+
 const fields = [
     'id',
     'code',
@@ -12,39 +17,38 @@ const fields = [
 ]
 
 
-const all = require('./scryfall-sets')
+function fillDb () {
+    return request('https://api.scryfall.com/sets')
+        .then(res => pruneData(res.body.data))
+        .then(sets => reseed(sets))
+}
 
-var fs = require('fs');
+function reseed(data) {
+    db('sets').delete()
+        .then(() => loopIn(data, 0))
+}
 
-arr = all.map(set => {
-    let keys = Object.keys(set)
-    let obj = {}
-
-    keys.forEach(key => {
-        if (fields.includes(key)){
-            obj[key] = (typeof set[key] == "object") ? JSON.stringify(set[key]) : set[key]
-        }
-    })
-    
-    return obj
-});
-
-
-const knex = require('knex')
-const config = require('../knexfile').development
-const db = knex(config)
-
-function loopIn (i) {
+function loopIn (arr, i) {
     if(i >= arr.length) db.destroy()
     else {
         db('sets').insert(arr[i])
-            .then(() => loopIn(i+1))
+            .then(() => loopIn(arr, i+1))
     }
 }
 
-function reseed() {
-    db('sets').delete()
-        .then(() => loopIn(0))
+function pruneData (all) {
+    return all.filter(set => set.set_type == "core" || set.set_type == "expansion").map(set => {
+        let obj = {}
+    
+        Object.keys(set).forEach(key => {
+            if (fields.includes(key)){
+                obj[key] = (typeof set[key] == "object") ? JSON.stringify(set[key]) : set[key]
+            }
+        })
+        
+        return obj
+    })
 }
 
-reseed()
+
+fillDb()

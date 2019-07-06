@@ -1,3 +1,8 @@
+const request = require('superagent')
+const knex = require('knex')
+const config = require('../knexfile').development
+const db = knex(config)
+
 const fields = [
     'card_faces',
     'cmc',
@@ -26,29 +31,50 @@ const fields = [
 ]
 
 
-const all = require('./scryfall-cards')
+let arr = []
 
-var fs = require('fs');
+function fillDb () {
+    return doRequest('https://api.scryfall.com/cards')
+        .then(() => console.log(" - Done!"))
+        .then(() => console.log("Total cards acquired: " + arr.length))
+        .then(() => reseed())
+}
 
-let arr = all.filter(card => card.lang == "en")
+function doRequest (url) {
+    return request(url)
+        .then(res => {
+            let cards = pruneData(res.body.data)
+            arr.push(...cards)
+            if(res.body.has_more) {
+                let next = res.body.next_page
 
-arr = arr.map(card => {
-    let keys = Object.keys(card)
-    let obj = {}
+                process.stdout.clearLine();  // clear current text
+                process.stdout.cursorTo(0);  // move cursor to beginning of line
+                process.stdout.write("Request " + next.split("=")[1] + "/" + Math.ceil(res.body.total_cards / 175));
 
-    keys.forEach(key => {
-        if (fields.includes(key)){
-            obj[key] = (typeof card[key] == "object") ? JSON.stringify(card[key]) : card[key]
-        }
-    })
+                return doRequest(next)
+            }
+        })
+}
+
+function pruneData (all) {
+    return all.filter(card => (card.set_type == "core" || card.set_type == "expansion") && card.lang == "en").map(card => {
+        let obj = {}
     
-    return obj
-});
+        Object.keys(card).forEach(key => {
+            if (fields.includes(key)){
+                obj[key] = (typeof card[key] == "object") ? JSON.stringify(card[key]) : card[key]
+            }
+        })
+        
+        return obj
+    })
+}
 
-
-const knex = require('knex')
-const config = require('../knexfile').development
-const db = knex(config)
+function reseed() {
+    db('cards').delete()
+        .then(() => loopIn(0))
+}
 
 function loopIn (i) {
     if(i >= arr.length) db.destroy()
@@ -58,9 +84,4 @@ function loopIn (i) {
     }
 }
 
-function reseed() {
-    db('cards').delete()
-        .then(() => loopIn(0))
-}
-
-reseed()
+fillDb()
