@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function Collection() {
   const renderSet = (name: string) => (
     <>
-      <h4>- {name}</h4>
+      <h3>{name}</h3>
       <p>Card 1</p>
       <p>Card 2</p>
       <p>Card 3</p>
@@ -12,8 +12,8 @@ function Collection() {
   return (
     <>
       <section>
-        <h1>My Collection</h1>
-        <h2>Look at all your pretty cards</h2>
+        <h2>My Collection</h2>
+        <p>Look at all your pretty cards</p>
       </section>
 
       <section>

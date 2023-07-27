@@ -48,8 +48,8 @@ function Set() {
   return (
     <>
       <section>
-        <h1>{setName}!</h1>
-        <h2>What a cool set</h2>
+        <h2>{setName}!</h2>
+        <p>What a cool set</p>
       </section>
       <section>{cards.map((card) => renderCard(card))}</section>
       <Link to="/sets">Sets</Link> | <Link to="/">Home</Link>

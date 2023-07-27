@@ -4,8 +4,8 @@ function Cards() {
   return (
     <>
       <section>
-        <h1>Cards</h1>
-        <h2>Search a card</h2>
+        <h2>Cards</h2>
+        <p>Search a card</p>
       </section>
 
       <section>filters filters filters</section>

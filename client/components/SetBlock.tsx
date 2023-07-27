@@ -13,13 +13,13 @@ function Block({ block }: Props) {
 
   return (
     <>
-      <h4
+      <h3
         onClick={() => {
           setVisible(!visible)
         }}
       >
         {name}
-      </h4>
+      </h3>
       {visible &&
         sets.map((set) => (
           <p key={set.id}>

@@ -22,8 +22,8 @@ function Card() {
         {card?.name ? (
           <>
             <img src={JSON.parse(card.image_uris).normal} alt={card.name} />
-            <h3>{card.name}</h3>
-            <h6>{card.set_name}</h6>
+            <h2>{card.name}</h2>
+            <h3>{card.set_name}</h3>
             <p>{card.type_line}</p>
             <p>{card.flavor_text}</p>
           </>
