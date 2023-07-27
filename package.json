@@ -2,52 +2,75 @@
   "name": "magic-awaaaay",
   "version": "1.0.0",
   "description": "Magic card collection app",
-  "main": "server/index.js",
+  "main": "server/index.ts",
   "repository": "https://github.com/kelly-keating/magic-awaaaay.git",
   "author": "Kelly Keating <keating.kel@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon --watch server & webpack --watch",
-    "postinstall": "webpack",
-    "reseed": "node data/processCards && node data/processSets"
+    "build": "run-s build:client build:server",
+    "build:client": "vite build",
+    "build:server": "tsc -p server/tsconfig.json",
+    "start": "node server/index.js",
+    "test": "vitest",
+    "coverage": "vitest --coverage",
+    "dev": "run-p dev:client dev:server",
+    "dev:client": "vite",
+    "dev:server": "nodemon server/index.ts",
+    "knex": "knex --knexfile ./server/db/knexfile.js",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "format": "prettier --write .",
+    "reseed": "ts-node data/processCards && ts-node data/processSets"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-object-rest-spread"
+  "eslintConfig": {
+    "extends": "@devacademy/eslint-config/react",
+    "ignorePatterns": [
+      "bundle.js"
     ]
   },
   "dependencies": {
-    "@reach/router": "^1.2.1",
-    "bulma": "^0.7.5",
-    "express": "^4.16.4",
-    "knex": "^0.16.3",
-    "path": "^0.12.7",
-    "pg": "^7.8.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "superagent": "^4.1.0"
+    "@devacademy/eslint-config": "^1.8.0",
+    "express": "^4.17.2",
+    "knex": "^2.3.0",
+    "sqlite3": "^5.1.2",
+    "superagent": "7.1.1",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.5",
-    "body-parser": "^1.18.3",
-    "fs": "^0.0.1-security",
-    "nodemon": "^1.18.10",
-    "sqlite3": "^4.0.6",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
-  }
+    "@devacademy/eslint-config": "^1.8.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/express": "^4.17.14",
+    "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7",
+    "@types/supertest": "^2.0.12",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-c8": "^0.30.1",
+    "eslint": "^8.10.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "nock": "^13.3.0",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "react": "^18.0.2",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^6.4.2",
+    "sass": "^1.62.1",
+    "supertest": "^6.2.2",
+    "typescript": "~4.8.4",
+    "vite": "^4.3.3",
+    "vitest": "^0.30.1"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "browserslist": "> 2%, not dead"
 }

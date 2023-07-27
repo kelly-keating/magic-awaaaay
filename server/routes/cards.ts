@@ -1,21 +1,24 @@
-var express = require('express')
-var router = express.Router()
+import { Router } from 'express'
+const router = Router()
 
-var db = require('../db')
+import * as db from '../db/db'
 
 router.get('/', (req, res) => {
   db.getCards()
     .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }))
 })
 
 router.get('/single/:id', (req, res) => {
   db.getCardById(req.params.id)
     .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }))
 })
 
 router.get('/set/:set', (req, res) => {
   db.getCardsFromSet(req.params.set)
     .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-module.exports = router
+export default router
