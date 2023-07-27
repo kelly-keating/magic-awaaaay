@@ -3,11 +3,11 @@ const db = require('../server/db/connection')
 
 const fields = [
   'card_faces',
-  'cmc',
-  'collector_number',
+  'cmc', // integer
+  'collector_number', // integer
   'color_identity',
   'colors',
-  'edhrec_rank',
+  'edhrec_rank', // integer
   'flavor_text',
   'id',
   'image_uris',
@@ -16,16 +16,24 @@ const fields = [
   'mana_cost',
   'name',
   'oracle_text',
-  'power',
+  'power', // integer
   'rarity',
   'scryfall_uri',
   'set',
   'set_name',
   'set_uri',
-  'tcgplayer_id',
-  'toughness',
+  'tcgplayer_id', // integer
+  'toughness', // integer
   'type_line',
   'uri',
+]
+const numberFields = [
+  'cmc',
+  'collector_number',
+  'edhrec_rank',
+  'power',
+  'tcgplayer_id',
+  'toughness',
 ]
 
 let arr = []
@@ -75,9 +83,14 @@ function pruneData(all) {
       let obj = {}
 
       Object.keys(card).forEach((key) => {
-        if (fields.includes(key)) {
-          obj[key] =
-            typeof card[key] == 'object' ? JSON.stringify(card[key]) : card[key]
+        if (numberFields.includes(key)) {
+          obj[key] = Number(card[key])
+        } else if (fields.includes(key)) {
+          if(typeof card[key] == 'object') {
+            obj[key] = JSON.stringify(card[key])
+          } else {
+            obj[key] = card[key]
+          }
         }
       })
 
@@ -88,18 +101,21 @@ function pruneData(all) {
 function reseed() {
   return db('cards')
     .delete()
-    .then(() => Promise.all(arr.map(card => db('cards').insert(card))))
-    .then(() => db.destroy())
+    .then(() => loopIn(0))
+    // .then(() => Promise.all(arr.map(card => db('cards').insert(card))))
+    // .then(() => db.destroy())
+    // TODO: This is a more "efficient" way to do it, but it's not working. Receiving error:
+    // KnexTimeoutError: Knex: Timeout acquiring a connection. The pool is probably full. Are you missing a .transacting(trx) call?
 }
 
-// function loopIn(i) {
-//   if (i >= arr.length) {
-//     db.destroy()
-//   } else {
-//     return db('cards')
-//       .insert(arr[i])
-//       .then(() => loopIn(i + 1))
-//   }
-// }
+function loopIn(i) {
+  if (i >= arr.length) {
+    db.destroy()
+  } else {
+    return db('cards')
+      .insert(arr[i])
+      .then(() => loopIn(i + 1))
+  }
+}
 
 fillDb()
