@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 
 import Dash from './components/Dash'
-import Sets from './components/SetsHome'
+import Sets from './components/Sets/Home'
 import Set from './components/Set'
 import Cards from './components/CardsHome'
 import Card from './components/CardSingle'

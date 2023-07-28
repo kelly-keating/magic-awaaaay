@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 
 import * as Models from '../../models/cards'
 import { getCardById } from '../api'
+import { Image } from '@chakra-ui/image'
+import { Heading } from '@chakra-ui/layout'
 
 function Card() {
   const { id } = useParams()
@@ -21,9 +23,9 @@ function Card() {
       <section>
         {card?.name ? (
           <>
-            <img src={JSON.parse(card.image_uris).normal} alt={card.name} />
-            <h2>{card.name}</h2>
-            <h3>{card.set_name}</h3>
+            <Image src={JSON.parse(card.image_uris).normal} alt={card.name} fallbackSrc="/card_back.png"/>
+            <Heading as="h2">{card.name}</Heading>
+            <Heading as="h3">{card.set_name}</Heading>
             <p>{card.type_line}</p>
             <p>{card.flavor_text}</p>
           </>

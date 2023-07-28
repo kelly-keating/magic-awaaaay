@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 
 import { getCardsFromSet } from '../api'
 import { Card } from '../../models/cards'
+import { Image } from '@chakra-ui/image'
+import { Heading } from '@chakra-ui/layout'
 
 function Set() {
   const { setName } = useParams()
@@ -24,8 +26,8 @@ function Set() {
     const [one, two] = JSON.parse(card.card_faces)
     return (
       <>
-        <img src={one.image_uris.small} alt={card.name + ' front'} />
-        <img src={two.image_uris.small} alt={card.name + ' back'} />
+        <Image src={one.image_uris.small} alt={card.name + ' front'} fallbackSrc="/card_back.png"/>
+        <Image src={two.image_uris.small} alt={card.name + ' back'} fallbackSrc="/card_back.png"/>
       </>
     )
   }
@@ -36,7 +38,7 @@ function Set() {
         <div style={{ display: 'inline-block', minWidth: '170px' }}>
           <p>{card.name}</p>
           {card.image_uris ? (
-            <img src={getImg(card, 'small')} alt={card.name} />
+            <Image src={getImg(card, 'small')} alt={card.name} fallbackSrc="/card_back.png"/>
           ) : (
             renderBothFaces(card)
           )}
@@ -48,7 +50,7 @@ function Set() {
   return (
     <>
       <section>
-        <h2>{setName}!</h2>
+        <Heading as="h2">{setName}!</Heading>
         <p>What a cool set</p>
       </section>
       <section>{cards.map((card) => renderCard(card))}</section>

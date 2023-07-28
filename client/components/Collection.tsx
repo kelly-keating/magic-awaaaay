@@ -1,9 +1,10 @@
+import { Heading } from '@chakra-ui/layout'
 import { Link } from 'react-router-dom'
 
 function Collection() {
   const renderSet = (name: string) => (
     <>
-      <h3>{name}</h3>
+      <Heading as="h3">{name}</Heading>
       <p>Card 1</p>
       <p>Card 2</p>
       <p>Card 3</p>
@@ -12,7 +13,7 @@ function Collection() {
   return (
     <>
       <section>
-        <h2>My Collection</h2>
+        <Heading as="h2">My Collection</Heading>
         <p>Look at all your pretty cards</p>
       </section>
 

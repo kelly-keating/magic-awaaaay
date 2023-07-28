@@ -30,8 +30,12 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.0",
+    "@chakra-ui/react": "^2.8.0",
     "@devacademy/eslint-config": "^1.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "express": "^4.17.2",
+    "framer-motion": "^10.14.0",
     "knex": "^2.3.0",
     "sqlite3": "^5.1.2",
     "superagent": "7.1.1",

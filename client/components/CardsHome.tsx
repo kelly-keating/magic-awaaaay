@@ -1,10 +1,11 @@
+import { Heading } from '@chakra-ui/layout'
 import { Link } from 'react-router-dom'
 
 function Cards() {
   return (
     <>
       <section>
-        <h2>Cards</h2>
+        <Heading as="h2">Cards</Heading>
         <p>Search a card</p>
       </section>
 

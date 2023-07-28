@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router'
 import { Auth0Provider } from '@auth0/auth0-react'
+import { ChakraProvider } from '@chakra-ui/react'
 
 import routes from './routes'
 
@@ -13,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
       redirectUri={window.location.origin}
       audience="https://magic-awaaaay/api"
     >
-      <RouterProvider router={routes} />
+      <ChakraProvider>
+        <RouterProvider router={routes} />
+      </ChakraProvider>
     </Auth0Provider>,
   )
 })
