@@ -1,7 +1,8 @@
 import { Set } from '../../../models/sets'
-import SetListing from './SetListing'
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel } from '@chakra-ui/accordion'
-import { Box, Heading } from '@chakra-ui/layout'
+
+import { Box, Heading } from '../utils'
+import SetListing from './SetListing'
 
 interface Props {
   block: [string, Set[]]

@@ -1,5 +1,4 @@
-import { Heading } from '@chakra-ui/layout'
-import { Link } from 'react-router-dom'
+import { Heading, Link } from './utils'
 
 function Collection() {
   const renderSet = (name: string) => (

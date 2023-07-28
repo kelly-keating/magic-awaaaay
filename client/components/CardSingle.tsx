@@ -1,10 +1,14 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-
 import * as Models from '../../models/cards'
+
+import {
+  Heading,
+  Image,
+  Link
+} from './utils'
+
 import { getCardById } from '../api'
-import { Image } from '@chakra-ui/image'
-import { Heading } from '@chakra-ui/layout'
 
 function Card() {
   const { id } = useParams()

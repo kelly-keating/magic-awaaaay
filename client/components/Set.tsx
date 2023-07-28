@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { Card } from '../../models/cards'
+
+import { Heading, Image, Link } from './utils'
 
 import { getCardsFromSet } from '../api'
-import { Card } from '../../models/cards'
-import { Image } from '@chakra-ui/image'
-import { Heading } from '@chakra-ui/layout'
 
 function Set() {
   const { setName } = useParams()

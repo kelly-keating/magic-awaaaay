@@ -10,3 +10,5 @@ export interface Set {
   set_type: string
   uri: string
 }
+
+export type Blocks = Record<string, Set[]>

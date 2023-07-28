@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Accordion } from '@chakra-ui/accordion'
-import { Heading } from '@chakra-ui/layout'
 import * as Models from '../../../models/sets'
 
+import {
+  Link,
+  Heading,
+  Button,
+} from '../utils'
 import Block from './Block'
 import SetListing from './SetListing'
 
 import { getAllSets } from '../../api'
-import { Button } from '@chakra-ui/button'
-
-type BlocksObj = Record<string, Models.Set[]>
 
 function Sets() {
   const [all, setAll] = useState([] as Models.Set[])
-  const [blocks, setBlocks] = useState({} as BlocksObj)
+  const [blocks, setBlocks] = useState({} as Models.Blocks)
   const [showCategories, setShowCategories] = useState(false)
 
   useEffect(() => {
@@ -22,11 +22,11 @@ function Sets() {
       .then((sets) => {
         setAll(sets)
 
-        const blocks = sets.reduce((obj: BlocksObj, set: Models.Set) => {
+        const blocks = sets.reduce((obj: Models.Blocks, set: Models.Set) => {
           const name = set.block || 'Expansions'
           obj[name] ? obj[name].push(set) : (obj[name] = [set])
           return obj
-        }, {} as BlocksObj)
+        }, {} as Models.Blocks)
 
         setBlocks(blocks)
       })
