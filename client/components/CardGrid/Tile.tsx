@@ -2,9 +2,11 @@ import { Card } from '../../../models/cards'
 
 import {
   Divider,
+  Flex,
   Heading,
   Image,
   Link,
+  Spacer,
   Tile,
   TileBody,
   TileFooter,
@@ -18,9 +20,8 @@ function CardTile({ card }: Props) {
 
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
-    // TODO: flex this
     return (
-      <>
+      <Flex justify='space-around'>
         <Image
           src={one.image_uris.small}
           alt={card.name + ' front'}
@@ -31,22 +32,24 @@ function CardTile({ card }: Props) {
           alt={card.name + ' back'}
           fallbackSrc="/card_back.png"
         />
-      </>
+      </Flex>
     )
   }
 
+  const twoFaced = Boolean(!card.image_uris)
+
   return (
-    <Tile maxW="200px">
+    <Tile width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : "200px"} margin='1'>
       <TileBody>
-        {card.image_uris ? (
+        {twoFaced ? (
+          renderBothFaces(card)
+        ) : (
           <Image
             src={JSON.parse(card.image_uris).small}
             alt={card.name}
             fallbackSrc="/card_back.png"
             style={{ maxHeight: '200px' }}
           />
-        ) : (
-          renderBothFaces(card)
         )}
         <Heading as="h3" size="sml">
           {card.name}
@@ -54,9 +57,11 @@ function CardTile({ card }: Props) {
       </TileBody>
       <Divider />
       <TileFooter>
-        <Link to={`/cards/${card.id}`} key={card.id}>
-          more info
-        </Link>
+          <Link to={`/cards/${card.id}`} key={card.id}>
+            more info
+          </Link>
+          <Spacer />
+          <p>{card.collector_number}</p>
       </TileFooter>
     </Tile>
   )

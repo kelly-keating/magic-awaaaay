@@ -1,4 +1,5 @@
 import { Card } from "../../../models/cards"
+import { Flex } from "../utils"
 
 import Tile from "./Tile"
 
@@ -7,11 +8,10 @@ interface Props {
 }
 
 function Grid({ cards }: Props) {
-  // TODO: add gaps between tiles
   return (
-    <div>
+    <Flex wrap='wrap'>
       {cards.map((card) => <Tile key={card.id} card={card} />)}
-    </div>
+    </Flex>
   )
 }
 
