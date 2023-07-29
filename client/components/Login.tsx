@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Button, Image } from './utils'
+import { Avatar, Button } from './utils'
 
 function Login() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()
@@ -9,9 +9,8 @@ function Login() {
     <section>
       {isAuthenticated && user ? (
         <>
+          <Avatar src={user.picture} name={user.nickname} />
           <Button onClick={() => logout()}>Logout</Button>
-          <Image src={user.picture} alt={user.nickname + ' icon'} />
-          <p>{user.nickname}</p>
         </>
       ) : (
         <Button onClick={() => loginWithRedirect()}>Login</Button>
