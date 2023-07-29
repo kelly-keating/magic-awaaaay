@@ -1,12 +1,7 @@
-import { useEffect, useState } from 'react'
-import { Accordion } from '@chakra-ui/accordion'
 import * as Models from '../../../models/sets'
+import { useEffect, useState } from 'react'
 
-import {
-  Link,
-  Heading,
-  Button,
-} from '../utils'
+import { Accordion, Button, Heading, Link } from '../utils'
 import Block from './Block'
 import SetListing from './SetListing'
 
@@ -54,7 +49,9 @@ function Sets() {
           </Accordion>
         ) : (
           <>
-            {all.map((set) => <SetListing key={set.id} set={set} />)}
+            {all.map((set) => (
+              <SetListing key={set.id} set={set} />
+            ))}
           </>
         )}
       </div>

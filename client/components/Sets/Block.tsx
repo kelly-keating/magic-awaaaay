@@ -1,7 +1,13 @@
 import { Set } from '../../../models/sets'
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel } from '@chakra-ui/accordion'
 
-import { Box, Heading } from '../utils'
+import {
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Heading,
+} from '../utils'
 import SetListing from './SetListing'
 
 interface Props {
@@ -15,14 +21,14 @@ function Block({ block }: Props) {
     <AccordionItem>
       <Heading as="h3">
         <AccordionButton>
-          <Box>
-            {name}
-          </Box>
+          <Box>{name}</Box>
           <AccordionIcon />
         </AccordionButton>
       </Heading>
       <AccordionPanel>
-        {sets.map((set) => <SetListing key={set.id} set={set} />)}
+        {sets.map((set) => (
+          <SetListing key={set.id} set={set} />
+        ))}
       </AccordionPanel>
     </AccordionItem>
   )

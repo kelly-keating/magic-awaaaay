@@ -1,11 +1,11 @@
+import { Card } from '../../models/cards'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Card } from '../../models/cards'
 
 import { Heading, Link } from './utils'
+import CardGrid from './CardGrid/Grid'
 
 import { getCardsFromSet } from '../api'
-import CardGrid from './CardGrid/Grid'
 
 function Set() {
   const { setName } = useParams()

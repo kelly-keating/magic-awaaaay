@@ -17,11 +17,10 @@ interface Props {
 }
 
 function CardTile({ card }: Props) {
-
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
     return (
-      <Flex justify='space-around'>
+      <Flex justify="space-around">
         <Image
           src={one.image_uris.small}
           alt={card.name + ' front'}
@@ -39,7 +38,10 @@ function CardTile({ card }: Props) {
   const twoFaced = Boolean(!card.image_uris)
 
   return (
-    <Tile width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : "200px"} margin='1'>
+    <Tile
+      width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : '200px'}
+      margin="1"
+    >
       <TileBody>
         {twoFaced ? (
           renderBothFaces(card)
@@ -57,11 +59,11 @@ function CardTile({ card }: Props) {
       </TileBody>
       <Divider />
       <TileFooter>
-          <Link to={`/cards/${card.id}`} key={card.id}>
-            more info
-          </Link>
-          <Spacer />
-          <p>{card.collector_number}</p>
+        <Link to={`/cards/${card.id}`} key={card.id}>
+          more info
+        </Link>
+        <Spacer />
+        <p>{card.collector_number}</p>
       </TileFooter>
     </Tile>
   )

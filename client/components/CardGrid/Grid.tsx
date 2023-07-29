@@ -1,7 +1,7 @@
-import { Card } from "../../../models/cards"
-import { Flex } from "../utils"
+import { Card } from '../../../models/cards'
 
-import Tile from "./Tile"
+import { Flex } from '../utils'
+import Tile from './Tile'
 
 interface Props {
   cards: Card[]
@@ -9,8 +9,10 @@ interface Props {
 
 function Grid({ cards }: Props) {
   return (
-    <Flex wrap='wrap'>
-      {cards.map((card) => <Tile key={card.id} card={card} />)}
+    <Flex wrap="wrap">
+      {cards.map((card) => (
+        <Tile key={card.id} card={card} />
+      ))}
     </Flex>
   )
 }

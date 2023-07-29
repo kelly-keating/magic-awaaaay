@@ -1,12 +1,8 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import * as Models from '../../models/cards'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import {
-  Heading,
-  Image,
-  Link
-} from './utils'
+import { Heading, Image, Link } from './utils'
 
 import { getCardById } from '../api'
 
@@ -27,7 +23,11 @@ function Card() {
       <section>
         {card?.name ? (
           <>
-            <Image src={JSON.parse(card.image_uris).normal} alt={card.name} fallbackSrc="/card_back.png"/>
+            <Image
+              src={JSON.parse(card.image_uris).normal}
+              alt={card.name}
+              fallbackSrc="/card_back.png"
+            />
             <Heading as="h2">{card.name}</Heading>
             <Heading as="h3">{card.set_name}</Heading>
             <p>{card.type_line}</p>
