@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { Accordion, Button, Heading, Link } from '../utils'
 import Block from './Block'
+import Search from './Search'
 import SetListing from './SetListing'
 
 import { getAllSets } from '../../api'
@@ -11,6 +12,14 @@ function Sets() {
   const [all, setAll] = useState([] as Models.Set[])
   const [blocks, setBlocks] = useState({} as Models.Blocks)
   const [showCategories, setShowCategories] = useState(false)
+
+  const [search, setSearch] = useState('')
+  const changeSearch = (str: string) => setSearch(str)
+  const matches = all.filter((set) => {
+    console.log(set)
+    const hasStr = (str: string) => str.toLowerCase().includes(search.toLowerCase())
+    return hasStr(set.name) || hasStr(set.code) || hasStr(set.block || 'Core') || hasStr(set.block_code || 'Core')
+  })
 
   useEffect(() => {
     getAllSets()
@@ -33,6 +42,7 @@ function Sets() {
       <div>
         <Heading as="h2">Sets</Heading>
         <p>View cards under each set</p>
+        {!showCategories && <Search changeSearch={changeSearch} />}
         <Button onClick={() => setShowCategories(!showCategories)}>
           {showCategories ? 'Show all' : 'Show categories'}
         </Button>
@@ -49,7 +59,7 @@ function Sets() {
           </Accordion>
         ) : (
           <>
-            {all.map((set) => (
+            {(search ? matches : all).map((set) => (
               <SetListing key={set.id} set={set} />
             ))}
           </>
