@@ -5,13 +5,14 @@ import Tile from './Tile'
 
 interface Props {
   cards: Card[]
+  maxNum: number
 }
 
-function Grid({ cards }: Props) {
+function Grid({ cards, maxNum }: Props) {
   return (
-    <Flex wrap="wrap">
+    <Flex wrap="wrap" justify="center">
       {cards.map((card) => (
-        <Tile key={card.id} card={card} totalCards={cards.length} />
+        <Tile key={card.id} card={card} maxNum={maxNum} />
       ))}
     </Flex>
   )

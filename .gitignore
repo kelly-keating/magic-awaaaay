@@ -14,6 +14,6 @@ coverage/*
 .env
 
 # large data
-scryfall-cards.json
+*scryfall-cards.json
 scryfall-sets.json
 data/cards*

@@ -14,13 +14,10 @@ import {
 
 interface Props {
   card: Card
-  totalCards: number
+  maxNum: number
 }
 
-function CardTile({ card, totalCards }: Props) {
-
-  // TODO: Make whole tile clickable
-
+function CardTile({ card, maxNum }: Props) {
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
     return (
@@ -29,45 +26,57 @@ function CardTile({ card, totalCards }: Props) {
           src={one.image_uris.small}
           alt={card.name + ' front'}
           fallbackSrc="/card_back.png"
+          style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
         />
         <Image
           src={two.image_uris.small}
           alt={card.name + ' back'}
           fallbackSrc="/card_back.png"
+          style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
         />
       </Flex>
     )
   }
 
   const twoFaced = Boolean(!card.image_uris)
+  // let bgCol = ""
+  // if (twoFaced) {
+  //   bgCol = "#e0e0f0"
+  // } else if (card.full_collector_number) {
+  //   bgCol = "beige"
+  // }
 
   return (
     <Tile
       width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : '200px'}
       margin="1"
+      // backgroundColor={bgCol}
+      textAlign="center"
     >
-      <TileBody>
-        {twoFaced ? (
-          renderBothFaces(card)
-        ) : (
-          <Image
-            src={JSON.parse(card.image_uris).small}
-            alt={card.name}
-            fallbackSrc="/card_back.png"
-            style={{ maxHeight: '200px' }}
-          />
-        )}
-        <Heading as="h3" size="sml">
-          {card.name}
-        </Heading>
-      </TileBody>
+      <Link to={`/cards/${card.id}`} key={card.id}>
+        <TileBody>
+          {twoFaced ? (
+            renderBothFaces(card)
+          ) : (
+            <Image
+              src={JSON.parse(card.image_uris).small}
+              alt={card.name}
+              fallbackSrc="/card_back.png"
+              style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
+            />
+          )}
+          <Heading as="h3" size="sml">
+            {card.name}
+          </Heading>
+        </TileBody>
+      </Link>
       <Divider />
       <TileFooter>
-        <Link to={`/cards/${card.id}`} key={card.id}>
-          more info
-        </Link>
+        more info
         <Spacer />
-        <p>{card.collector_number} / {totalCards}</p>
+        <p>
+          {card.full_collector_number || card.collector_number} / {maxNum}
+        </p>
       </TileFooter>
     </Tile>
   )

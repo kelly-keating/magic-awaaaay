@@ -5,6 +5,7 @@ exports.up = (knex) => {
     table.string('card_faces')
     table.integer('cmc')
     table.integer('collector_number')
+    table.string('full_collector_number')
     table.string('color_identity')
     table.string('colors')
     table.integer('edhrec_rank')

@@ -14,6 +14,9 @@ const fields = [
 'uri'
 ]
 
+// TODO: find a way to include other sets in components
+// e.g. - code: 'ltr', name: 'The Lord of the Rings: Tales of Middle-earth',
+
 function fillDb () {
   return request('https://api.scryfall.com/sets')
     .then(res => pruneData(res.body.data))

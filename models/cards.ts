@@ -4,6 +4,7 @@ export interface Card {
   card_faces: string
   cmc: number
   collector_number: number
+  full_collector_number: string
   color_identity: string
   colors: string
   edhrec_rank: number

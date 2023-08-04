@@ -74,16 +74,20 @@ function doRequest(url) {
 
 function pruneData(all) {
   return all
-    .filter(
-      (card) =>
-        (card.set_type == 'core' || card.set_type == 'expansion') &&
-        card.lang == 'en',
-    )
+    .filter(card => card.set_type == 'core' || card.set_type == 'expansion')
     .map((card) => {
       let obj = {}
 
       Object.keys(card).forEach((key) => {
-        if (numberFields.includes(key)) {
+        if (key === 'collector_number') {
+          const isNumber = (char) => /^\d+$/.test(char)
+          const chars = card.collector_number.split('')
+          const nums = chars.filter(isNumber)
+          
+          obj.full_collector_number = chars.length !== nums.length ? card.collector_number : null
+          obj.collector_number = Number(nums.join(''))
+          
+        } else if (numberFields.includes(key)) {
           obj[key] = Number(card[key])
         } else if (fields.includes(key)) {
           if(typeof card[key] == 'object') {

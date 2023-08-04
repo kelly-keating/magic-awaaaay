@@ -11,7 +11,9 @@ export function getCardById(id: string): Promise<Card> {
 }
 
 export function getCardsFromSet(set: string): Promise<Card[]> {
-  return db('cards').where('set_name', set).orderBy('collector_number')
+  return db('cards')
+    .where('set_name', set)
+    .orderBy(['collector_number', 'full_collector_number'])
 }
 
 export function getSets(): Promise<string[]> {
