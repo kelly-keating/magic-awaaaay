@@ -1,13 +1,14 @@
 import { Card } from '../../../models/cards'
 
+import { Flex, Heading, Image, Spacer } from '@chakra-ui/react'
 import {
-  Divider,
-  Flex,
-  Heading,
-  Image,
-  Spacer,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, Link, Tile, TileBody, TileFooter } from '../utils'
+  CheckCircleIcon,
+  Link,
+  StarIcon,
+  Tile,
+  TileBody,
+  TileFooter,
+} from '../utils'
 
 interface Props {
   card: Card
@@ -35,19 +36,25 @@ function CardTile({ card, maxNum }: Props) {
     )
   }
 
+  // TODO: Base these on user collection
+  const ownsNormal = false
+  const ownsFoil = false
+  // const owned = ownsNormal || ownsFoil
+
   const twoFaced = Boolean(!card.image_uris)
-  // let bgCol = ""
-  // if (twoFaced) {
-  //   bgCol = "#e0e0f0"
-  // } else if (card.full_collector_number) {
-  //   bgCol = "beige"
-  // }
+
+  let bgCol = ''
+  if (card.full_collector_number) {
+    bgCol = 'beige'
+  } else {
+    bgCol = ''
+  }
 
   return (
     <Tile
       width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : '200px'}
       margin="1"
-      // backgroundColor={bgCol}
+      backgroundColor={bgCol}
       textAlign="center"
     >
       <Link to={`/cards/${card.id}`} key={card.id}>
@@ -62,18 +69,24 @@ function CardTile({ card, maxNum }: Props) {
               style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
             />
           )}
-          <Heading as="h3" size="sml">
+          <Heading
+            as="h3"
+            size="sml"
+            style={{ marginTop: 'var(--card-padding)' }}
+          >
             {card.name}
           </Heading>
         </TileBody>
       </Link>
-      <Divider />
       <TileFooter>
-        <CheckCircleIcon />
-        <Spacer />
         <p>
           {card.full_collector_number || card.collector_number} / {maxNum}
         </p>
+        <Spacer />
+        <div>
+          <StarIcon color={ownsFoil ? 'orange' : 'darkgray'} />
+          <CheckCircleIcon color={ownsNormal ? 'forestgreen' : 'darkgray'} />
+        </div>
       </TileFooter>
     </Tile>
   )
