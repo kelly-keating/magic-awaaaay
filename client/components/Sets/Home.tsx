@@ -43,6 +43,10 @@ function Sets() {
       .catch((err) => alert(err.message))
   }, [])
 
+  useEffect(() => {
+    setSearch('')
+  }, [showCategories])
+
   return (
     <>
       <div>
@@ -52,7 +56,7 @@ function Sets() {
           <Button onClick={() => setShowCategories(!showCategories)}>
             {showCategories ? 'Show all' : 'Show categories'}
           </Button>
-          {!showCategories && <Search changeSearch={changeSearch} />}
+          {!showCategories && <Search changeSearch={changeSearch} currentSearch={search} />}
         </HStack>
       </div>
 
