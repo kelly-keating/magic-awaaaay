@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-import { Heading, Link } from './utils'
+import { Heading } from '@chakra-ui/react'
+import { Link } from './utils'
 import Login from './Login'
 
 function Dash() {

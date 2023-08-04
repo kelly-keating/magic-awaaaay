@@ -7,7 +7,7 @@ import {
   AccordionPanel,
   Box,
   Heading,
-} from '../utils'
+} from '@chakra-ui/react'
 import SetListing from './SetListing'
 
 interface Props {

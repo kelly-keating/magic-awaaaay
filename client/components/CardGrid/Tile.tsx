@@ -5,12 +5,9 @@ import {
   Flex,
   Heading,
   Image,
-  Link,
   Spacer,
-  Tile,
-  TileBody,
-  TileFooter,
-} from '../utils'
+} from '@chakra-ui/react'
+import { CheckCircleIcon, Link, Tile, TileBody, TileFooter } from '../utils'
 
 interface Props {
   card: Card
@@ -72,7 +69,7 @@ function CardTile({ card, maxNum }: Props) {
       </Link>
       <Divider />
       <TileFooter>
-        more info
+        <CheckCircleIcon />
         <Spacer />
         <p>
           {card.full_collector_number || card.collector_number} / {maxNum}

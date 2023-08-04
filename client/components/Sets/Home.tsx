@@ -1,7 +1,8 @@
 import * as Models from '../../../models/sets'
 import { useEffect, useState } from 'react'
 
-import { Accordion, Button, Heading, Link } from '../utils'
+import { Accordion, Button, Heading } from '@chakra-ui/react'
+import { Link } from '../utils'
 import Block from './Block'
 import Search from './Search'
 import SetListing from './SetListing'
@@ -16,7 +17,6 @@ function Sets() {
   const [search, setSearch] = useState('')
   const changeSearch = (str: string) => setSearch(str)
   const matches = all.filter((set) => {
-    console.log(set)
     const hasStr = (str: string) => str.toLowerCase().includes(search.toLowerCase())
     return hasStr(set.name) || hasStr(set.code) || hasStr(set.block || 'Core') || hasStr(set.block_code || 'Core')
   })

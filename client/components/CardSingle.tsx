@@ -2,7 +2,8 @@ import * as Models from '../../models/cards'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Heading, Image, Link } from './utils'
+import { Heading, Image } from '@chakra-ui/react'
+import { Link } from './utils'
 
 import { getCardById } from '../api'
 

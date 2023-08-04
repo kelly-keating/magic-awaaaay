@@ -1,4 +1,5 @@
-import { Heading, Link } from './utils'
+import { Heading } from '@chakra-ui/react'
+import { Link } from './utils'
 
 function Collection() {
   const renderSet = (name: string) => (

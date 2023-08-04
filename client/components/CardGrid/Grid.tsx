@@ -1,6 +1,6 @@
 import { Card } from '../../../models/cards'
 
-import { Flex } from '../utils'
+import { Flex } from '@chakra-ui/react'
 import Tile from './Tile'
 
 interface Props {

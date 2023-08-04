@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Avatar, Button } from './utils'
+import { Avatar, Button } from '@chakra-ui/react'
 
 function Login() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0()

@@ -1,7 +1,7 @@
 import { Set } from '../../../models/sets'
 import { Link } from 'react-router-dom'
 
-import { Image } from '../utils'
+import { Image } from '@chakra-ui/react'
 
 interface Props {
   set: Set
