@@ -18,10 +18,13 @@ function Card() {
     }
   }, [id])
 
+  // TODO: Add price apis for current selling value
+  // TODO: Add link back to set
+
   return (
     <>
       <section>
-        {card?.name ? (
+        {card ? (
           <>
             <Image
               src={JSON.parse(card.image_uris).normal}
@@ -32,6 +35,15 @@ function Card() {
             <Heading as="h3">{card.set_name}</Heading>
             <p>{card.type_line}</p>
             <p>{card.flavor_text}</p>
+            <p>{card.collector_number}</p>
+            <p>{card.rarity}</p>
+            <p>{card.oracle_text}</p>
+            <p>{card.mana_cost}</p>
+            <p>{card.cmc}</p>
+            <p>{card.power}</p>
+            <p>{card.toughness}</p>
+            <p>{card.loyalty}</p>
+            <p>{card.rarity}</p>
           </>
         ) : (
           <img
@@ -41,7 +53,13 @@ function Card() {
         )}
       </section>
 
-      <Link to="/">Home</Link>
+      {
+        card ? (
+          <Link to={"/sets/" + card?.set_name}>Back to set</Link>
+        ) : (
+          <Link to="/">Home</Link>
+        ) 
+      }
     </>
   )
 }

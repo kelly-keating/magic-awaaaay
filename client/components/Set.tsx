@@ -19,6 +19,8 @@ function Set() {
     }
   }, [setName])
 
+  // TODO: Add link to other sets in block
+
   return (
     <>
       <section>

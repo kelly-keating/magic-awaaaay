@@ -6,6 +6,8 @@ import * as chakraCard from '@chakra-ui/card'
 import * as chakraImage from '@chakra-ui/image'
 import * as chakraLayout from '@chakra-ui/layout'
 
+// TODO: Does @chakra-ui/react make most of this irrelevant? Can they all be imported directly from there instead?
+
 interface LinkProps {
   children: React.ReactNode
   to: string

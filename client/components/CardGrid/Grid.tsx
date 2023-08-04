@@ -11,7 +11,7 @@ function Grid({ cards }: Props) {
   return (
     <Flex wrap="wrap">
       {cards.map((card) => (
-        <Tile key={card.id} card={card} />
+        <Tile key={card.id} card={card} totalCards={cards.length} />
       ))}
     </Flex>
   )

@@ -14,9 +14,13 @@ import {
 
 interface Props {
   card: Card
+  totalCards: number
 }
 
-function CardTile({ card }: Props) {
+function CardTile({ card, totalCards }: Props) {
+
+  // TODO: Make whole tile clickable
+
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
     return (
@@ -63,7 +67,7 @@ function CardTile({ card }: Props) {
           more info
         </Link>
         <Spacer />
-        <p>{card.collector_number}</p>
+        <p>{card.collector_number} / {totalCards}</p>
       </TileFooter>
     </Tile>
   )
