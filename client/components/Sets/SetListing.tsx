@@ -2,6 +2,7 @@ import { Set } from '../../../models/sets'
 import { Link } from 'react-router-dom'
 
 import { Image } from '@chakra-ui/react'
+import { Tile } from '../utils'
 
 interface Props {
   set: Set
@@ -9,7 +10,13 @@ interface Props {
 
 function SetListing({ set }: Props) {
   return (
-    <div style={{ display: 'flex' }}>
+    <Tile
+      width="100px"
+      margin="1"
+      textAlign="center"
+      justifyContent="space-around"
+      alignItems="center"
+    >
       <Image
         src={set.icon_svg_uri}
         alt={set.name + ' logo'}
@@ -19,7 +26,7 @@ function SetListing({ set }: Props) {
       <p>
         <Link to={set.name}>{set.name}</Link>
       </p>
-    </div>
+    </Tile>
   )
 }
 

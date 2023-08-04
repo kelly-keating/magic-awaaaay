@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Flex,
   Heading,
 } from '@chakra-ui/react'
 import SetListing from './SetListing'
@@ -26,9 +27,11 @@ function Block({ block }: Props) {
         </AccordionButton>
       </Heading>
       <AccordionPanel>
-        {sets.map((set) => (
-          <SetListing key={set.id} set={set} />
-        ))}
+        <Flex wrap="wrap" justifyContent="center">
+          {sets.map((set) => (
+            <SetListing key={set.id} set={set} />
+          ))}
+        </Flex>
       </AccordionPanel>
     </AccordionItem>
   )

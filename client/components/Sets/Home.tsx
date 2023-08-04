@@ -1,7 +1,7 @@
 import * as Models from '../../../models/sets'
 import { useEffect, useState } from 'react'
 
-import { Accordion, Button, Heading } from '@chakra-ui/react'
+import { Accordion, Button, Flex, HStack, Heading } from '@chakra-ui/react'
 import { Link } from '../utils'
 import Block from './Block'
 import Search from './Search'
@@ -17,8 +17,14 @@ function Sets() {
   const [search, setSearch] = useState('')
   const changeSearch = (str: string) => setSearch(str)
   const matches = all.filter((set) => {
-    const hasStr = (str: string) => str.toLowerCase().includes(search.toLowerCase())
-    return hasStr(set.name) || hasStr(set.code) || hasStr(set.block || 'Core') || hasStr(set.block_code || 'Core')
+    const hasStr = (str: string) =>
+      str.toLowerCase().includes(search.toLowerCase())
+    return (
+      hasStr(set.name) ||
+      hasStr(set.code) ||
+      hasStr(set.block || 'Core') ||
+      hasStr(set.block_code || 'Core')
+    )
   })
 
   useEffect(() => {
@@ -42,10 +48,12 @@ function Sets() {
       <div>
         <Heading as="h2">Sets</Heading>
         <p>View cards under each set</p>
-        {!showCategories && <Search changeSearch={changeSearch} />}
-        <Button onClick={() => setShowCategories(!showCategories)}>
-          {showCategories ? 'Show all' : 'Show categories'}
-        </Button>
+        <HStack>
+          <Button onClick={() => setShowCategories(!showCategories)}>
+            {showCategories ? 'Show all' : 'Show categories'}
+          </Button>
+          {!showCategories && <Search changeSearch={changeSearch} />}
+        </HStack>
       </div>
 
       <div>
@@ -58,11 +66,11 @@ function Sets() {
             ))}
           </Accordion>
         ) : (
-          <>
+          <Flex wrap="wrap" justifyContent="center">
             {(search ? matches : all).map((set) => (
               <SetListing key={set.id} set={set} />
             ))}
-          </>
+          </Flex>
         )}
       </div>
 

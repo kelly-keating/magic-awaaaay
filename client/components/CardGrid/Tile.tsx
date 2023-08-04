@@ -56,6 +56,7 @@ function CardTile({ card, maxNum }: Props) {
       margin="1"
       backgroundColor={bgCol}
       textAlign="center"
+      justifyContent="space-between"
     >
       <Link to={`/cards/${card.id}`} key={card.id}>
         <TileBody>
