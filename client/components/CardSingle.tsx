@@ -25,7 +25,7 @@ function Card() {
   return (
     <>
       <section>
-        {card ? (
+        {card && (
           <>
             <Image
               src={JSON.parse(card.image_uris).normal}
@@ -46,11 +46,6 @@ function Card() {
             <p>{card.loyalty}</p>
             <p>{card.rarity}</p>
           </>
-        ) : (
-          <img
-            src="https://i.giphy.com/media/11FuEnXyGsXFba/giphy.webp"
-            alt=""
-          />
         )}
       </section>
 
