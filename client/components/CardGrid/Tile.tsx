@@ -1,14 +1,8 @@
 import { Card, CardCount } from '../../../models/cards'
 
-import { Flex, Heading, Image, Spacer } from '@chakra-ui/react'
-import {
-  CheckCircleIcon,
-  Link,
-  StarIcon,
-  Tile,
-  TileBody,
-  TileFooter,
-} from '../utils'
+import { Flex, Heading, Image } from '@chakra-ui/react'
+import { Link, Tile, TileBody, TileFooter } from '../utils'
+import QuantityButton from './QuantityButton'
 
 interface Props {
   card: Card
@@ -53,9 +47,10 @@ function CardTile({ card, count, maxNum }: Props) {
       backgroundColor={bgCol}
       textAlign="center"
       justifyContent="space-between"
+      size="sm"
     >
       <Link to={`/cards/${card.id}`} key={card.id}>
-        <TileBody>
+        <TileBody paddingTop={0}>
           {twoFaced ? (
             renderBothFaces(card)
           ) : (
@@ -75,15 +70,18 @@ function CardTile({ card, count, maxNum }: Props) {
           </Heading>
         </TileBody>
       </Link>
-      <TileFooter>
+
+      <TileFooter
+        display="flex"
+        justifyContent="space-between"
+        alignItems="baseline"
+        paddingTop={0}
+      >
+        <QuantityButton count={count?.normal} />
         <p>
           {card.full_collector_number || card.collector_number} / {maxNum}
         </p>
-        <Spacer />
-        <div>
-          <StarIcon color={count?.foil ? 'orange' : 'darkgray'} />
-          <CheckCircleIcon color={count?.normal ? 'forestgreen' : 'darkgray'} />
-        </div>
+        <QuantityButton count={count?.foil} foil={true} />
       </TileFooter>
     </Tile>
   )
