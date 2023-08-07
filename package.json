@@ -44,7 +44,7 @@
     "jsonwebtoken": "^9.0.1",
     "jwks-rsa": "^3.0.1",
     "knex": "^2.3.0",
-    "sqlite3": "^5.1.2",
+    "sqlite3": "^5.1.5",
     "superagent": "7.1.1",
     "ts-node": "^10.9.1"
   },
