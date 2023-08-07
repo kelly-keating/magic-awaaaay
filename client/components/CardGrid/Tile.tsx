@@ -1,4 +1,4 @@
-import { Card } from '../../../models/cards'
+import { Card, CardCount } from '../../../models/cards'
 
 import { Flex, Heading, Image, Spacer } from '@chakra-ui/react'
 import {
@@ -12,10 +12,11 @@ import {
 
 interface Props {
   card: Card
+  count: CardCount | undefined
   maxNum: number
 }
 
-function CardTile({ card, maxNum }: Props) {
+function CardTile({ card, count, maxNum }: Props) {
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
     return (
@@ -35,11 +36,6 @@ function CardTile({ card, maxNum }: Props) {
       </Flex>
     )
   }
-
-  // TODO: Base these on user collection
-  const ownsNormal = false
-  const ownsFoil = false
-  // const owned = ownsNormal || ownsFoil
 
   const twoFaced = Boolean(!card.image_uris)
 
@@ -85,8 +81,8 @@ function CardTile({ card, maxNum }: Props) {
         </p>
         <Spacer />
         <div>
-          <StarIcon color={ownsFoil ? 'orange' : 'darkgray'} />
-          <CheckCircleIcon color={ownsNormal ? 'forestgreen' : 'darkgray'} />
+          <StarIcon color={count?.foil ? 'orange' : 'darkgray'} />
+          <CheckCircleIcon color={count?.normal ? 'forestgreen' : 'darkgray'} />
         </div>
       </TileFooter>
     </Tile>

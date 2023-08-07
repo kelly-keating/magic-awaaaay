@@ -2,6 +2,7 @@ import { Router } from 'express'
 const router = Router()
 
 import * as db from '../db/db'
+import checkJwt, { JwtRequest } from '../auth0'
 
 router.get('/', (req, res) => {
   db.getCards()
@@ -17,6 +18,21 @@ router.get('/single/:id', (req, res) => {
 
 router.get('/set/:set', (req, res) => {
   db.getCardsFromSet(req.params.set)
+    .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }))
+})
+
+// TODO: fix this and Set.jsx - Getting malformed token error
+// router.get('/set/:set/user', checkJwt, (req: JwtRequest, res) => {
+router.get('/set/:set/user', (req: JwtRequest, res) => {
+  // const userId = req.auth?.sub
+  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
+
+  // if (!userId) {
+  //   return res.status(401).json({ error: 'Not authorized' })
+  // }
+
+  db.getUsersCardsFromSet(req.params.set, userId)
     .then((result) => res.json(result))
     .catch((err) => res.status(500).json({ error: err.message }))
 })

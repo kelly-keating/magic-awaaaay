@@ -4,6 +4,7 @@ exports.up = (knex) => {
     table.string('user_id')
     table.string('card_id')//.references('cards.id')
     table.integer('quantity')
+    table.integer('foil_quantity')
   }) 
 }
 

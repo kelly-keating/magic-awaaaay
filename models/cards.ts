@@ -25,3 +25,17 @@ export interface Card {
   type_line: string
   uri: string
 }
+
+export interface UserCard {
+  id: string
+  user_id: string
+  card_id: string
+  quantity: number
+  foil_quantity: number
+}
+
+export interface CardCount {
+  normal: number
+  foil: number
+}
+export type CardCounts = Record<string, CardCount>
