@@ -4,9 +4,10 @@ import { StarIcon, CheckCircleIcon } from '../utils'
 interface Props {
   count: number | undefined
   foil?: boolean
+  addOne: (addToFoil: boolean) => void
 }
 
-function QuantityButton({ count = 0, foil = false }: Props) {
+function QuantityButton({ count = 0, foil = false, addOne }: Props) {
   return (
     <Button
       variant="ghost"
@@ -19,6 +20,7 @@ function QuantityButton({ count = 0, foil = false }: Props) {
           <CheckCircleIcon color={count ? 'forestgreen' : 'darkgray'} />
         )
       }
+      onClick={() => addOne(foil)}
     >
       {count ? count : ' '}
     </Button>

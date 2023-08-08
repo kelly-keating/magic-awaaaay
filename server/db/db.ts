@@ -1,6 +1,8 @@
-import { Card } from '../../models/cards'
+import { Card, UserCard } from '../../models/cards'
 
 import db from './connection'
+
+// CARDS
 
 export function getCards(): Promise<Card[]> {
   return db('cards')
@@ -16,6 +18,8 @@ export function getCardsFromSet(set: string): Promise<Card[]> {
     .orderBy(['collector_number', 'full_collector_number'])
 }
 
+// USERS_CARDS
+
 export function getUsersCardsFromSet(set: string, userId: string): Promise<Card[]> {
   return db('users_cards')
     .select('users_cards.*')
@@ -24,6 +28,32 @@ export function getUsersCardsFromSet(set: string, userId: string): Promise<Card[
     .andWhere('users_cards.user_id', userId)
     .orderBy(['collector_number', 'full_collector_number'])
 }
+
+export function addCardToUser(newCard: UserCard): Promise<UserCard> {
+  return db('users_cards')
+    .insert(newCard)
+    .returning('*')
+    .then((result) => result[0])
+}
+
+export function updateUserCard(card: UserCard): Promise<UserCard> {
+  return db('users_cards')
+    .where('card_id', card.card_id)
+    .andWhere('user_id', card.user_id)
+    .update(card)
+    .returning('*')
+    .then((result) => result[0])
+}
+
+export function checkUserCardExists(cardId: string, userId: string): Promise<boolean> {
+  return db('users_cards')
+    .where('card_id', cardId)
+    .andWhere('user_id', userId)
+    .first()
+    .then((result) => Boolean(result))
+}
+
+// SETS
 
 export function getSets(): Promise<string[]> {
   return db('sets').orderBy('released_at')

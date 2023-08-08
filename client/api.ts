@@ -11,7 +11,6 @@ export function getCardsFromSet(setName: string): Promise<Card[]> {
 }
 
 export function getUsersCardsFromSet(token: string, setName: string): Promise<CardCounts> {
-  console.log(token)
   return request
     .get(`/api/v1/cards/set/${setName}/user`)
     .set('Authorization', `Bearer ${token}`)
@@ -22,6 +21,14 @@ export function getUsersCardsFromSet(token: string, setName: string): Promise<Ca
       }
       return obj
     }, {}))
+}
+
+export function addCardToUser(token: string, cardId: string, normal: number, foil: number): Promise<UserCard> {
+  return request
+    .post('/api/v1/cards/add/user')
+    .set('Authorization', `Bearer ${token}`)
+    .send({ cardId, normal, foil })
+    .then((res) => res.body)
 }
 
 export function getAllSets(): Promise<Set[]> {

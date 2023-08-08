@@ -1,16 +1,22 @@
 import { Card, CardCount } from '../../../models/cards'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import { Flex, Heading, Image } from '@chakra-ui/react'
 import { Link, Tile, TileBody, TileFooter } from '../utils'
 import QuantityButton from './QuantityButton'
 
+import { addCardToUser } from '../../api'
+
 interface Props {
   card: Card
   count: CardCount | undefined
   maxNum: number
+  updateCount: (cardId: string, normal: number, foil: number) => void
 }
 
-function CardTile({ card, count, maxNum }: Props) {
+function CardTile({ card, count, maxNum, updateCount }: Props) {
+  const { getAccessTokenSilently } = useAuth0()
+
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
     return (
@@ -34,10 +40,22 @@ function CardTile({ card, count, maxNum }: Props) {
   const twoFaced = Boolean(!card.image_uris)
 
   let bgCol = ''
-  if (card.full_collector_number) {
+  if (count && card.full_collector_number) {
     bgCol = 'beige'
-  } else {
+  } else if (count) {
     bgCol = ''
+  } else {
+    bgCol = 'lightgray'
+  }
+
+  const addOne = (addToFoil: boolean) => {
+    let { foil, normal } = count || { foil: 0, normal: 0 }
+    addToFoil ? foil++ : normal++
+
+    getAccessTokenSilently()
+      .then((token) => addCardToUser(token, card.id, normal, foil))
+      .then(() => updateCount(card.id, normal, foil))
+      .catch((err) => console.log(err))
   }
 
   return (
@@ -77,11 +95,11 @@ function CardTile({ card, count, maxNum }: Props) {
         alignItems="baseline"
         paddingTop={0}
       >
-        <QuantityButton count={count?.normal} />
+        <QuantityButton count={count?.normal} addOne={addOne} />
         <p>
           {card.full_collector_number || card.collector_number} / {maxNum}
         </p>
-        <QuantityButton count={count?.foil} foil={true} />
+        <QuantityButton count={count?.foil} foil={true} addOne={addOne} />
       </TileFooter>
     </Tile>
   )

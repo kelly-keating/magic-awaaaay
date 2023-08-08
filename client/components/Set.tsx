@@ -48,6 +48,17 @@ function Set() {
     }
   }, [getAccessTokenSilently, setName, user])
 
+  const updateCardCount = (cardId: string, normal: number, foil: number) => {
+    setCounts((counts) => {
+      const newCounts = { ...counts }
+      newCounts[cardId] = { normal, foil }
+      return newCounts
+    })
+  }
+
+  const uniqueOwned = Object.keys(counts).length
+  const totalOwned = Object.values(counts).reduce((total, { normal, foil }) => total + normal + foil, 0)
+
   // TODO: Add link to other sets in block
 
   return (
@@ -56,12 +67,12 @@ function Set() {
         <Heading as="h2">{setName}!</Heading>
         <p>What a cool set</p>
 
-        <p>Unique cards: {uniqueCards}</p>
-        <p>Total cards: {cards.length}</p>
-        <p>Variants: {variants.length}</p>
+        <p></p>
+        <p>Unique cards: {uniqueCards} ({variants.length} variants)</p>
+        <p>Unique cards owned: {uniqueOwned} ({totalOwned} total)</p>
         {missingNumbers}
       </section>
-      <CardGrid cards={cards} cardCounts={counts} maxNum={maxNum} />
+      <CardGrid cards={cards} cardCounts={counts} maxNum={maxNum} updateCount={updateCardCount} />
       <Link to="/sets">Sets</Link> | <Link to="/">Home</Link>
     </>
   )

@@ -3,8 +3,8 @@ exports.up = (knex) => {
     table.increments('id').primary()
     table.string('user_id')
     table.string('card_id')//.references('cards.id')
-    table.integer('quantity')
-    table.integer('foil_quantity')
+    table.integer('quantity').defaultTo(0)
+    table.integer('foil_quantity').defaultTo(0)
   }) 
 }
 
