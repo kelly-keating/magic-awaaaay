@@ -1,22 +1,24 @@
 import { Card, CardCounts } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Button, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
-import { ChevronDownIcon, Link } from './utils'
+import { Button, Flex, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { ArrowLeft, ArrowRight, ChevronDown, Link } from './utils'
 import CardGrid from './CardGrid/Grid'
 
 import { getSetInformation, getUsersCardsFromSet } from '../api'
+import SetListing from './Sets/SetListing'
 
 function SetPage() {
   const { getAccessTokenSilently, user } = useAuth0()
   const { setName } = useParams()
+  const goTo = useNavigate()
+
   const [fullSet, setFullSet] = useState(null as null | Set)
   const [cards, setCards] = useState([] as Card[])
   const [counts, setCounts] = useState({} as CardCounts)
-
   const [blockSets, setBlockSets] = useState([] as Set[])
   const [neighbours, setNeighbours] = useState(null as null | NeighbouringSets)
 
@@ -78,7 +80,7 @@ function SetPage() {
         <p>What a cool set</p>
 
         {fullSet && <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{fullSet.block} Block</MenuButton>
+          <MenuButton as={Button} rightIcon={<ChevronDown />}>{fullSet.block} Block</MenuButton>
           <MenuList>
             {blockSets.map((set) => (
               <MenuItem key={set.name}>
@@ -93,7 +95,22 @@ function SetPage() {
         {missingNumbers}
       </section>
       <CardGrid cards={cards} cardCounts={counts} maxNum={maxNum} updateCount={updateCardCount} />
-      <Link to="/sets">Sets</Link> | <Link to="/">Home</Link>
+      <div>
+      {neighbours && (
+        <Flex>
+          {neighbours.before.map(set => <SetListing key={set.name} set={set} />)}
+          {fullSet && <SetListing key={fullSet.name} set={fullSet} />}
+          {neighbours.after.map(set => <SetListing key={set.name} set={set} />)}
+        </Flex>
+      )}
+      <Button onClick={() => goTo('/sets/' + neighbours?.before[1].name)}>
+        <ArrowLeft />
+      </Button>
+      <Link to="/sets">See all sets</Link>
+      <Button onClick={() => goTo('/sets/' + neighbours?.after[1].name)}>
+        <ArrowRight />
+      </Button>
+      </div>
     </>
   )
 }

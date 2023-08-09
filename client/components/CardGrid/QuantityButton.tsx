@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import { StarIcon, CheckCircleIcon } from '../utils'
+import { Star, CheckCircle } from '../utils'
 
 interface Props {
   count: number | undefined
@@ -15,9 +15,9 @@ function QuantityButton({ count = 0, foil = false, addOne }: Props) {
       colorScheme="blue"
       rightIcon={
         foil ? (
-          <StarIcon color={count ? 'orange' : 'darkgray'} />
+          <Star color={count ? 'orange' : 'darkgray'} />
         ) : (
-          <CheckCircleIcon color={count ? 'forestgreen' : 'darkgray'} />
+          <CheckCircle color={count ? 'forestgreen' : 'darkgray'} />
         )
       }
       onClick={() => addOne(foil)}

@@ -22,6 +22,8 @@ export const TileHeader = chakra.CardHeader
 export const TileBody = chakra.CardBody
 export const TileFooter = chakra.CardFooter
 
-export const CheckCircleIcon = icons.CheckCircleIcon
-export const StarIcon = icons.StarIcon
-export const ChevronDownIcon = icons.ChevronDownIcon
+export const CheckCircle = icons.CheckCircleIcon
+export const Star = icons.StarIcon
+export const ChevronDown = icons.ChevronDownIcon
+export const ArrowLeft = icons.ArrowLeftIcon
+export const ArrowRight = icons.ArrowRightIcon
