@@ -14,9 +14,9 @@ import Collection from './components/Collection'
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Dash />}>
+      <Route index element={<Cards />} />
       <Route path="sets" element={<Sets />} />
       <Route path="sets/:setName" element={<Set />} />
-      <Route path="cards" element={<Cards />} />
       <Route path="cards/:id" element={<Card />} />
       <Route path="collection" element={<Collection />} />
     </Route>,

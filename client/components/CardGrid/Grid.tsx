@@ -6,7 +6,7 @@ import Tile from './Tile'
 interface Props {
   cards: Card[]
   cardCounts: CardCounts
-  maxNum: number
+  maxNum?: number
   updateCount: (cardId: string, normal: number, foil: number) => void
 }
 

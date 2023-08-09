@@ -1,4 +1,4 @@
-import { Card, Currencies, DBCard, UserCard } from '../../models/cards'
+import { Card, CardCounts, Currencies, DBCard, UserCard } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
@@ -26,8 +26,19 @@ export function updateCurrencies(currencies: Currencies): Promise<void> {
 
 // CARDS
 
-export function getCards(): Promise<Card[]> {
+// get random assortment of 100 cards
+export function getRandomCards(): Promise<Card[]> {
   return db('cards')
+    .orderByRaw('RANDOM()')
+    .limit(101)
+    .then((cards) => cards.map(prepCardForClient))
+}
+
+export function getCardsByUserId(userId: string): Promise<Card[]> {
+  return db('cards')
+    .select('cards.*')
+    .join('users_cards', 'users_cards.card_id', 'cards.id')
+    .where('users_cards.user_id', userId)
     .then((cards) => cards.map(prepCardForClient))
 }
 
@@ -43,14 +54,33 @@ export function getCardsFromSet(set: string): Promise<Card[]> {
     .then((cards) => cards.map(prepCardForClient))
 }
 
+interface AllCardInfo {
+  cards: Card[]
+  userCards: CardCounts
+}
+export function getAllCardInfoForUser(userId: string): Promise<AllCardInfo> {
+  return Promise.all([
+    getCardsByUserId(userId),
+    getUsersCards(userId),
+  ])
+    .then(([cards, userCards]) => ({ cards, userCards }))
+}
+
 // USERS_CARDS
 
-export function getUsersCardsFromSet(set: string, userId: string): Promise<UserCard[]> {
+export function getUsersCards(userId: string): Promise<CardCounts> {
+  return db('users_cards')
+    .where('user_id', userId)
+    .then(condenseUserCards)
+}
+
+export function getUsersCardsFromSet(set: string, userId: string): Promise<CardCounts> {
   return db('users_cards')
     .select('users_cards.*')
     .join('cards', 'cards.id', 'users_cards.card_id')
     .where('set_name', set)
     .andWhere('users_cards.user_id', userId)
+    .then(condenseUserCards)
 }
 
 export function addCardToUser(newCard: UserCard): Promise<UserCard> {
@@ -123,4 +153,14 @@ function prepCardForClient(card: DBCard): Card {
     ...rest,
     prices: JSON.parse(prices),
   }
+}
+
+function condenseUserCards(userCards: UserCard[]): CardCounts {
+  return userCards.reduce((obj: CardCounts, card: UserCard) => {
+    obj[card.card_id] = {
+      normal: card.quantity,
+      foil: card.foil_quantity,
+    }
+    return obj
+  }, {})
 }

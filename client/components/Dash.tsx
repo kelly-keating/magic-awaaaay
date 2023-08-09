@@ -8,14 +8,13 @@ function Dash() {
   return (
     <>
       <header>
+        <Link to="/">
         <Heading as="h1">Dash</Heading>
+        </Link>
         <nav>
           <div>
             <Link to="/sets">
               <div>Sets</div>
-            </Link>
-            <Link to="/cards">
-              <div>Cards</div>
             </Link>
           </div>
 

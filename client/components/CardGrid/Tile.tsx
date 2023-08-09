@@ -10,12 +10,12 @@ import { addCardToUser } from '../../api'
 interface Props {
   card: Card
   count: CardCount | undefined
-  maxNum: number
+  maxNum?: number
   updateCount: (cardId: string, normal: number, foil: number) => void
 }
 
 function CardTile({ card, count, maxNum, updateCount }: Props) {
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently, user } = useAuth0()
 
   const renderBothFaces = (card: Card) => {
     const [one, two] = JSON.parse(card.card_faces)
@@ -51,6 +51,8 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
   const addOne = (addToFoil: boolean) => {
     let { foil, normal } = count || { foil: 0, normal: 0 }
     addToFoil ? foil++ : normal++
+
+    if(!user) return alert('hey sign in bro')
 
     getAccessTokenSilently()
       .then((token) => addCardToUser(token, card.id, normal, foil))
@@ -96,9 +98,9 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
         paddingTop={0}
       >
         <QuantityButton count={count?.normal} addOne={addOne} />
-        <p>
+        {maxNum && <p>
           {card.full_collector_number || card.collector_number} / {maxNum}
-        </p>
+        </p>}
         <QuantityButton count={count?.foil} foil={true} addOne={addOne} />
       </TileFooter>
     </Tile>
