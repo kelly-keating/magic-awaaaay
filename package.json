@@ -20,10 +20,10 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "format": "prettier --write .",
-    "reseed": "run-s seed:sets seed:cards seed:users",
+    "reseed": "run-s seed:sets seed:cards seed:money",
     "seed:sets": "ts-node data/processSets",
     "seed:cards": "ts-node data/processCards",
-    "seed:users": "npm run knex seed:run"
+    "seed:money": "npm run knex seed:run"
   },
   "eslintConfig": {
     "extends": "@devacademy/eslint-config/react",
@@ -38,6 +38,7 @@
     "@devacademy/eslint-config": "^1.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "dotenv": "^16.3.1",
     "express": "^4.17.2",
     "express-jwt": "^8.4.1",
     "framer-motion": "^10.14.0",

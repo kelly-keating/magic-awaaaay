@@ -1,7 +1,28 @@
-import { Card, UserCard } from '../../models/cards'
+import { Card, Currencies, UserCard } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
+
+// CURRENT PRICES
+
+export function getCurrencies(): Promise<Currencies> {
+  return db('currencies').first()
+    .then(({ usd, eur, date }) => ({
+      usd: Number(usd),
+      eur: Number(eur),
+      date,
+    }))
+}
+
+export function updateCurrencies(currencies: Currencies): Promise<void> {
+  const { usd, eur, date } = currencies
+  return db('currencies')
+    .update({
+      usd: String(usd),
+      eur: String(eur),
+      date,
+    })
+}
 
 // CARDS
 

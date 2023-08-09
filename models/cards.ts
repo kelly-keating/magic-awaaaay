@@ -26,6 +26,19 @@ export interface Card {
   uri: string
 }
 
+export interface Currencies {
+  usd: number
+  eur: number
+  date: string
+}
+
+export interface Prices {
+  usd: string | null
+  usd_foil: string | null
+  eur: string | null
+  eur_foil: string | null
+}
+
 export interface UserCard {
   id: string
   user_id: string

@@ -1,15 +1,23 @@
-import * as Models from '../../models/cards'
+import { Card, Currencies, Prices } from '../../models/cards'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Heading, Image } from '@chakra-ui/react'
+import { Heading, Image, Stat, StatGroup, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react'
 import { Link } from './utils'
 
-import { getCardById } from '../api'
+import { getCardById, getCurrentPrices, getCurrencies } from '../api'
 
-function Card() {
+function CardPage() {
   const { id } = useParams()
-  const [card, setCard] = useState(null as null | Models.Card)
+  const [card, setCard] = useState(null as null | Card)
+  const [conversion, setConversion] = useState(null as null | Currencies)
+  const [prices, setPrices] = useState(null as null | Prices)
+
+  useEffect(() => {
+    getCurrencies()
+      .then((currencies) => setConversion(currencies))
+      .catch((err) => console.log(err))
+  }, [])
 
   useEffect(() => {
     if (id) {
@@ -20,6 +28,39 @@ function Card() {
   }, [id])
 
   // TODO: Add price apis for current selling value
+  useEffect(() => {
+    if(card) {
+      getCurrentPrices(card.id)
+        .then((prices) => setPrices(prices))
+        .catch((err) => console.log(err))
+    }
+  }, [card])
+
+  let nzd = null as null | number
+  let nzdFoil = null as null | number
+  
+  if (prices && conversion) {
+    const usd = Number(prices.usd)
+    const eur = Number(prices.eur)
+    const usdFoil = Number(prices.usd_foil)
+    const eurFoil = Number(prices.eur_foil)
+
+    const getTotal = (usd: number, eur: number) => {
+      if (usd && eur) {
+        return ((usd * conversion.usd) + (eur * conversion.eur)) / 2
+      } else if (usd) {
+       return usd * conversion.usd
+      } else if (eur) {
+        return eur * conversion.eur
+      } else {
+        return null
+      }
+    }
+
+    nzd = getTotal(usd, eur)
+    nzdFoil = getTotal(usdFoil, eurFoil)
+  }
+
   // TODO: Add link back to set
 
   return (
@@ -34,6 +75,21 @@ function Card() {
             />
             <Heading as="h2">{card.name}</Heading>
             <Heading as="h3">{card.set_name}</Heading>
+
+            <StatGroup>
+              <Stat>
+                <StatLabel>Regular</StatLabel>
+                <StatNumber>${nzd ? nzd.toFixed(2) : " - "}</StatNumber>
+                <StatHelpText>TCGplayer (US${prices?.usd || " - "}) | Cardmarket (€{prices?.eur || " - "})</StatHelpText>
+              </Stat>
+
+              <Stat>
+                <StatLabel>Foil</StatLabel>
+                <StatNumber>${nzdFoil ? nzdFoil.toFixed(2) : " - "}</StatNumber>
+                <StatHelpText>TCGplayer (US${prices?.usd_foil || " - "}) | Cardmarket (€{prices?.eur_foil || " - "})</StatHelpText>
+              </Stat>
+            </StatGroup>
+
             <p>{card.type_line}</p>
             <p>{card.flavor_text}</p>
             <p>{card.collector_number}</p>
@@ -60,4 +116,4 @@ function Card() {
   )
 }
 
-export default Card
+export default CardPage
