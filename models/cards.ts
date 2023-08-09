@@ -15,6 +15,7 @@ export interface Card {
   mana_cost: string
   oracle_text: string
   power: number
+  prices: Prices
   rarity: string
   scryfall_uri: string
   set: string
@@ -24,6 +25,10 @@ export interface Card {
   toughness: number
   type_line: string
   uri: string
+}
+
+export type DBCard = Omit<Card, 'prices'> & {
+  prices: string
 }
 
 export interface Currencies {

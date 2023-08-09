@@ -16,6 +16,7 @@ exports.up = (knex) => {
     table.string('mana_cost')
     table.string('oracle_text')
     table.integer('power')
+    table.string('prices')
     table.string('rarity')
     table.string('scryfall_uri')
     table.string('set')

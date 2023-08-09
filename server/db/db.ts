@@ -1,4 +1,4 @@
-import { Card, Currencies, UserCard } from '../../models/cards'
+import { Card, Currencies, DBCard, UserCard } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
@@ -28,27 +28,29 @@ export function updateCurrencies(currencies: Currencies): Promise<void> {
 
 export function getCards(): Promise<Card[]> {
   return db('cards')
+    .then((cards) => cards.map(prepCardForClient))
 }
 
 export function getCardById(id: string): Promise<Card> {
   return db('cards').where('id', id).first()
+    .then(prepCardForClient)
 }
 
 export function getCardsFromSet(set: string): Promise<Card[]> {
   return db('cards')
     .where('set_name', set)
     .orderBy(['collector_number', 'full_collector_number'])
+    .then((cards) => cards.map(prepCardForClient))
 }
 
 // USERS_CARDS
 
-export function getUsersCardsFromSet(set: string, userId: string): Promise<Card[]> {
+export function getUsersCardsFromSet(set: string, userId: string): Promise<UserCard[]> {
   return db('users_cards')
     .select('users_cards.*')
     .join('cards', 'cards.id', 'users_cards.card_id')
     .where('set_name', set)
     .andWhere('users_cards.user_id', userId)
-    .orderBy(['collector_number', 'full_collector_number'])
 }
 
 export function addCardToUser(newCard: UserCard): Promise<UserCard> {
@@ -103,4 +105,22 @@ export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSet
       getTwoNeighbours(releasedAt, 'after'),
     ])
     .then(([before, after]) => ({ before, after }))
+}
+
+// ----- UTILS ------ //
+
+function prepCardForDb(card: Card): DBCard {
+  const { prices, ...rest } = card
+  return {
+    ...rest,
+    prices: JSON.stringify(prices),
+  }
+}
+
+function prepCardForClient(card: DBCard): Card {
+  const { prices, ...rest } = card
+  return {
+    ...rest,
+    prices: JSON.parse(prices),
+  }
 }

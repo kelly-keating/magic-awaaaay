@@ -17,6 +17,7 @@ const fields = [
   'name',
   'oracle_text',
   'power', // integer
+  'prices', // object
   'rarity',
   'scryfall_uri',
   'set',
@@ -79,7 +80,9 @@ function pruneData(all) {
       let obj = {}
 
       Object.keys(card).forEach((key) => {
-        if (key === 'collector_number') {
+        if (key === 'prices') {
+          obj.prices = JSON.stringify(card.prices)
+        } else if (key === 'collector_number') {
           const isNumber = (char) => /^\d+$/.test(char)
           const chars = card.collector_number.split('')
           const nums = chars.filter(isNumber)
