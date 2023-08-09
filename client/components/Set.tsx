@@ -1,19 +1,24 @@
 import { Card, CardCounts } from '../../models/cards'
+import { NeighbouringSets, Set } from '../../models/sets'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Heading } from '@chakra-ui/react'
-import { Link } from './utils'
+import { Button, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { ChevronDownIcon, Link } from './utils'
 import CardGrid from './CardGrid/Grid'
 
-import { getCardsFromSet, getUsersCardsFromSet } from '../api'
+import { getSetInformation, getUsersCardsFromSet } from '../api'
 
-function Set() {
+function SetPage() {
   const { getAccessTokenSilently, user } = useAuth0()
   const { setName } = useParams()
+  const [fullSet, setFullSet] = useState(null as null | Set)
   const [cards, setCards] = useState([] as Card[])
   const [counts, setCounts] = useState({} as CardCounts)
+
+  const [blockSets, setBlockSets] = useState([] as Set[])
+  const [neighbours, setNeighbours] = useState(null as null | NeighbouringSets)
 
   const variants = cards.filter((card) => card.full_collector_number)
   const uniqueCards = cards.length - variants.length
@@ -29,8 +34,13 @@ function Set() {
 
   useEffect(() => {
     if (setName) {
-      getCardsFromSet(setName)
-        .then((cards) => setCards(cards))
+      getSetInformation(setName)
+        .then(({ set, cards, blockSets, neighbours }) => {
+          setFullSet(set)
+          setCards(cards)
+          setBlockSets(blockSets)
+          setNeighbours(neighbours)
+        })
         .catch((err) => alert(err.message))
     }
   }, [setName])
@@ -67,7 +77,17 @@ function Set() {
         <Heading as="h2">{setName}!</Heading>
         <p>What a cool set</p>
 
-        <p></p>
+        {fullSet && <Menu>
+          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>{fullSet.block} Block</MenuButton>
+          <MenuList>
+            {blockSets.map((set) => (
+              <MenuItem key={set.name}>
+                <Link to={`/sets/${set.name}`}>{set.name}</Link>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>}
+
         <p>Unique cards: {uniqueCards} ({variants.length} variants)</p>
         <p>Unique cards owned: {uniqueOwned} ({totalOwned} total)</p>
         {missingNumbers}
@@ -78,4 +98,4 @@ function Set() {
   )
 }
 
-export default Set
+export default SetPage

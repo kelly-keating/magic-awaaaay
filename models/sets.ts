@@ -12,3 +12,7 @@ export interface Set {
 }
 
 export type Blocks = Record<string, Set[]>
+export interface NeighbouringSets {
+  before: Set[]
+  after: Set[]
+}

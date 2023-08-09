@@ -1,4 +1,5 @@
 import { Card, UserCard } from '../../models/cards'
+import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
 
@@ -55,6 +56,30 @@ export function checkUserCardExists(cardId: string, userId: string): Promise<boo
 
 // SETS
 
-export function getSets(): Promise<string[]> {
+export function getSets(): Promise<Set[]> {
   return db('sets').orderBy('released_at')
+}
+
+export function getSetByName(name: string): Promise<Set> {
+  return db('sets').where('name', name).first()
+}
+
+function getTwoNeighbours(released_at: string, direction: 'before' | 'after'): Promise<Set[]> {
+  return db('sets')
+    .where('released_at', direction === 'before' ? '<' : '>', released_at)
+    .orderBy('released_at', direction === 'before' ? 'desc' : 'asc')
+    .limit(2)
+    .then((result) => direction === 'before' ? result.reverse() : result)
+}
+
+export function getSetsFromBlock(blockName: string): Promise<Set[]> {
+  return db('sets').where('block', blockName).orderBy('released_at')
+}
+
+export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSets> {
+  return Promise.all([
+      getTwoNeighbours(releasedAt, 'before'),
+      getTwoNeighbours(releasedAt, 'after'),
+    ])
+    .then(([before, after]) => ({ before, after }))
 }
