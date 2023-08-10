@@ -24,7 +24,7 @@ function SetListing({ set }: Props) {
         style={{ maxHeight: '50px', maxWidth: '50px' }}
       />
       <p>
-        <Link to={set.name}>{set.name}</Link>
+        <Link to={'/sets/' + set.name}>{set.name}</Link>
       </p>
     </Tile>
   )

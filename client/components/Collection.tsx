@@ -33,7 +33,13 @@ function Collection() {
 
           return cards.reduce((total, card) => {
             const { usd, usd_foil, eur, eur_foil } = card.prices
-            return getAvgNzd(usd, eur) + getAvgNzd(usd_foil, eur_foil) + total
+
+            const normalPrice = getAvgNzd(usd, eur)
+            const foilPrice = getAvgNzd(usd_foil, eur_foil)
+
+            const {normal, foil} = cardCounts[card.id]
+            
+            return (normal * normalPrice) + (foil * foilPrice) + total
           }, 0)
         })
         .then((total) => setTotalValue(total))
@@ -51,28 +57,28 @@ function Collection() {
       .catch((err) => alert(err.message))
   }, [getAccessTokenSilently])
 
-  const renderSet = (name: string) => (
-    <>
-      <Heading as="h3">{name}</Heading>
-      <p>Card 1</p>
-      <p>Card 2</p>
-      <p>Card 3</p>
-    </>
-  )
+  // const renderSet = (name: string) => (
+  //   <>
+  //     <Heading as="h3">{name}</Heading>
+  //     <p>Card 1</p>
+  //     <p>Card 2</p>
+  //     <p>Card 3</p>
+  //   </>
+  // )
 
   return (
     <>
       <section>
         <Heading as="h2">My Collection</Heading>
         <p>Look at all your pretty cards</p>
-        <p>Total value: {totalValue.toFixed(2)}</p>
+        <p>Total value: ${totalValue.toFixed(2)}</p>
       </section>
 
-      <section>
+      {/* <section>
         {renderSet('ixalan')}
         {renderSet('rivals')}
         {renderSet('war of the spark')}
-      </section>
+      </section> */}
 
       {cardCounts && <CardGrid cards={cards} cardCounts={cardCounts} updateCount={() => {}} />}
 
