@@ -17,7 +17,6 @@ router.get('/single/:id', (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-
 // router.get('/user', checkJwt, (req: JwtRequest, res) => {
 router.get('/user', (req: JwtRequest, res) => {
   // TODO: fix auth

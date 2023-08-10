@@ -1,4 +1,4 @@
-import { Card, CardCount } from '../../../models/cards'
+import { Card, CardCount, TwoSidedCard } from '../../../models/cards'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import { Flex, Heading, Image } from '@chakra-ui/react'
@@ -17,8 +17,8 @@ interface Props {
 function CardTile({ card, count, maxNum, updateCount }: Props) {
   const { getAccessTokenSilently, user } = useAuth0()
 
-  const renderBothFaces = (card: Card) => {
-    const [one, two] = JSON.parse(card.card_faces)
+  const renderBothFaces = (card: TwoSidedCard) => {
+    const [one, two] = card.card_faces
     return (
       <Flex justify="space-around">
         <Image
@@ -37,7 +37,7 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     )
   }
 
-  const twoFaced = Boolean(!card.image_uris)
+  const twoFaced = (card: Card): card is TwoSidedCard => Boolean(!card.image_uris)
 
   let bgCol = ''
   if (count && card.full_collector_number) {
@@ -62,7 +62,7 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
 
   return (
     <Tile
-      width={twoFaced ? 'calc(400px + var(--chakra-space-2))' : '200px'}
+      width={twoFaced(card) ? 'calc(400px + var(--chakra-space-2))' : '200px'}
       margin="1"
       backgroundColor={bgCol}
       textAlign="center"
@@ -71,11 +71,11 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     >
       <Link to={`/cards/${card.id}`} key={card.id}>
         <TileBody paddingTop={0}>
-          {twoFaced ? (
+          {twoFaced(card) ? (
             renderBothFaces(card)
           ) : (
             <Image
-              src={JSON.parse(card.image_uris).small}
+              src={card.image_uris.border_crop}
               alt={card.name}
               fallbackSrc="/card_back.png"
               style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}

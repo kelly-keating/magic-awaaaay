@@ -140,17 +140,24 @@ export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSet
 // ----- UTILS ------ //
 
 function prepCardForDb(card: Card): DBCard {
-  const { prices, ...rest } = card
+  const { card_faces, color_identity, image_uris, prices, ...rest } = card
+  
   return {
     ...rest,
+    card_faces: JSON.stringify(card_faces),
+    color_identity: JSON.stringify(color_identity),
+    image_uris: JSON.stringify(image_uris),
     prices: JSON.stringify(prices),
   }
 }
 
 function prepCardForClient(card: DBCard): Card {
-  const { prices, ...rest } = card
+  const { card_faces, color_identity, image_uris, prices, ...rest } = card
   return {
     ...rest,
+    card_faces: JSON.parse(card_faces),
+    color_identity: JSON.parse(color_identity),
+    image_uris: JSON.parse(image_uris),
     prices: JSON.parse(prices),
   }
 }

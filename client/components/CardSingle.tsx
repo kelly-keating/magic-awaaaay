@@ -68,11 +68,27 @@ function CardPage() {
       <section>
         {card && (
           <>
-            <Image
-              src={JSON.parse(card.image_uris).normal}
-              alt={card.name}
-              fallbackSrc="/card_back.png"
-            />
+            {card.card_faces ? (
+              <>
+                <Image
+                  src={card.card_faces[0].image_uris.normal}
+                  alt={card.name}
+                  fallbackSrc="/card_back.png"
+                />
+                <Image
+                  src={card.card_faces[1].image_uris.normal}
+                  alt={card.name}
+                  fallbackSrc="/card_back.png"
+                />
+              </>
+            ) : (
+              <Image
+                src={card.image_uris.normal}
+                alt={card.name}
+                fallbackSrc="/card_back.png"
+              />
+            )}
+            
             <Heading as="h2">{card.name}</Heading>
             <Heading as="h3">{card.set_name}</Heading>
 

@@ -2,7 +2,7 @@ const request = require('superagent')
 const db = require('../server/db/connection')
 
 const fields = [
-  'card_faces',
+  'card_faces', // object
   'cmc', // integer
   'collector_number', // integer
   'color_identity',
@@ -10,7 +10,7 @@ const fields = [
   'edhrec_rank', // integer
   'flavor_text',
   'id',
-  'image_uris',
+  'image_uris', // object
   'layout',
   'loyalty',
   'mana_cost',
@@ -23,7 +23,6 @@ const fields = [
   'set',
   'set_name',
   'set_uri',
-  'tcgplayer_id', // integer
   'toughness', // integer
   'type_line',
   'uri',
@@ -33,7 +32,6 @@ const numberFields = [
   'collector_number',
   'edhrec_rank',
   'power',
-  'tcgplayer_id',
   'toughness',
 ]
 
@@ -80,9 +78,7 @@ function pruneData(all) {
       let obj = {}
 
       Object.keys(card).forEach((key) => {
-        if (key === 'prices') {
-          obj.prices = JSON.stringify(card.prices)
-        } else if (key === 'collector_number') {
+        if (key === 'collector_number') {
           const isNumber = (char) => /^\d+$/.test(char)
           const chars = card.collector_number.split('')
           const nums = chars.filter(isNumber)

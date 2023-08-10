@@ -22,7 +22,6 @@ exports.up = (knex) => {
     table.string('set')
     table.string('set_name')
     table.string('set_uri')
-    table.integer('tcgplayer_id')
     table.integer('toughness')
     table.string('type_line')
     table.string('uri')
