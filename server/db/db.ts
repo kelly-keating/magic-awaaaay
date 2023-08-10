@@ -24,6 +24,12 @@ export function updateCurrencies(currencies: Currencies): Promise<void> {
     })
 }
 
+export function updateCardPrices(id: string, prices: string): Promise<number> {
+  return db('cards')
+    .update({ prices })
+    .where('id', id)
+}
+
 // CARDS
 
 // get random assortment of 100 cards
@@ -32,6 +38,12 @@ export function getRandomCards(): Promise<Card[]> {
     .orderByRaw('RANDOM()')
     .limit(101)
     .then((cards) => cards.map(prepCardForClient))
+}
+
+export function getAllOwnedCards(): Promise<Card[]> {
+  return db('cards')
+    .select('cards.*')
+    .join('users_cards', 'users_cards.card_id', 'cards.id')
 }
 
 export function getCardsByUserId(userId: string): Promise<Card[]> {

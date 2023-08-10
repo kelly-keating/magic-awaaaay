@@ -57,18 +57,6 @@ export function addCardToUser(token: string, cardId: string, normal: number, foi
 
 // PRICES
 
-interface Prices {
-  usd: string | null
-  usd_foil: string | null
-  eur: string | null
-  eur_foil: string | null
-}
-export function getCurrentPrices(id: string): Promise<Prices> {
-  return request
-    .get(`https://api.scryfall.com/cards/${id}`)
-    .then((res) => res.body.prices)
-}
-
 export function getCurrencies(): Promise<Currencies> {
   return request.get('/api/v1/currencies').then((res) => res.body)
 }

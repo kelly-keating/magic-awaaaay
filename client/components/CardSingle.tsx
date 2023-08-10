@@ -1,17 +1,16 @@
-import { Card, Currencies, Prices } from '../../models/cards'
+import { Card, Currencies } from '../../models/cards'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Heading, Image, Stat, StatGroup, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react'
 import { Link } from './utils'
 
-import { getCardById, getCurrentPrices, getCurrencies } from '../api'
+import { getCardById, getCurrencies } from '../api'
 
 function CardPage() {
   const { id } = useParams()
   const [card, setCard] = useState(null as null | Card)
   const [conversion, setConversion] = useState(null as null | Currencies)
-  const [prices, setPrices] = useState(null as null | Prices)
 
   useEffect(() => {
     getCurrencies()
@@ -27,18 +26,10 @@ function CardPage() {
     }
   }, [id])
 
-  // TODO: Add price apis for current selling value
-  useEffect(() => {
-    if(card) {
-      getCurrentPrices(card.id)
-        .then((prices) => setPrices(prices))
-        .catch((err) => console.log(err))
-    }
-  }, [card])
-
   let nzd = null as null | number
   let nzdFoil = null as null | number
-  
+  const prices = card?.prices
+
   if (prices && conversion) {
     const usd = Number(prices.usd)
     const eur = Number(prices.eur)

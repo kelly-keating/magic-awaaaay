@@ -35,11 +35,29 @@ server.get('/api/v1/currencies', async (req, res) => {
       }
       await db.updateCurrencies(newDate)
       res.json(newDate)
+      await updatePrices()
     }
   } catch (err) {
     res.status(500).json({ error: (err as Error).message })
   }
 })
+
+function updatePrices() {
+  const updateCardPrice = (id: string) => {
+    return request.get(`https://api.scryfall.com/cards/${id}`)
+      .then((response) => JSON.stringify(response.body.prices))
+      .then((prices) => db.updateCardPrices(id, prices))
+  } 
+  
+  db.getAllOwnedCards()
+    .then((cards) => {
+      console.log(`--- Updating ${cards.length} prices ---`)
+      const promises = cards.map(({id}) => updateCardPrice(id))
+      return Promise.all(promises) 
+    })
+    .then(() => console.log('---> Prices updated'))
+    .catch((err) => console.log(err))
+}
 
 // TODO: add deployment only dist redirect
 
