@@ -3,25 +3,22 @@ import { Outlet } from 'react-router-dom'
 import { Heading } from '@chakra-ui/react'
 import { Link } from './utils'
 import Login from './Login'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Dash() {
+  const { user } = useAuth0()
+
   return (
     <>
       <header>
         <Link to="/">
-        <Heading as="h1">Dash</Heading>
+        <Heading as="h1">Magic awaaaay!</Heading>
         </Link>
         <nav>
-          <div>
             <Link to="/sets">
-              <div>Sets</div>
+              Sets
             </Link>
-          </div>
-
-          <div>
-            <Link to="/cards">Search</Link> for a specific card or view your{' '}
-            <Link to="/collection">collection</Link>
-          </div>
+            {user && <Link to="/collection">Collection</Link>}
         </nav>
         <Login />
       </header>
