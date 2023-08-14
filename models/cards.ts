@@ -96,6 +96,15 @@ export interface CardCount {
 }
 export type CardCounts = Record<string, CardCount>
 
+export interface QueryData {
+  unowned: boolean | null
+  excludeLand: boolean | null
+  rarity: string | null
+  colors: string[] | null
+  sets: string[] | null
+  types: string[] | null
+}
+
 /*
 
 export type Card = OneSidedCard | TwoSidedCard

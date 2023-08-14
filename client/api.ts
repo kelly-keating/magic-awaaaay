@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { Card, CardCounts, Currencies, UserCard } from '../models/cards'
+import { Card, CardCounts, Currencies, QueryData, UserCard } from '../models/cards'
 import { NeighbouringSets, Set } from '../models/sets'
 
 // SETS
@@ -54,6 +54,20 @@ export function addCardToUser(token: string, cardId: string, normal: number, foi
     .then((res) => res.body)
 }
 
+export function searchCards(query: string, conditions: QueryData): Promise<Card[]> {
+  const qs = []
+
+  if(query === "") query = "allCards"
+  if(conditions.sets) qs.push(`sets=${conditions.sets.join(',')}`)
+  if(conditions.colors) qs.push(`colors=${conditions.colors.join(',')}`)
+  if(conditions.types) qs.push(`types=${conditions.types.join(',')}`)
+  if(conditions.rarity) qs.push(`rarity=${conditions.rarity}`)
+  if(conditions.unowned) qs.push(`unowned=${conditions.unowned}`)
+  if(conditions.excludeLand) qs.push(`excludeLand=${conditions.excludeLand}`)
+  if(qs.length) query += `?${qs.join('&')}`
+
+  return request.get(`/api/v1/cards/search/${query}`).then((res) => res.body)
+}
 
 // PRICES
 

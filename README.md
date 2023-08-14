@@ -4,10 +4,15 @@
 
 ```bash
   npm install
-  npm run dev
+  npm run knex migrate:latest
+  npm run reseed
 ```
 
 Server runs on port 3000, client on port 5173.
+
+```bash
+  npm run dev
+```
 
 ## Data
 
@@ -118,6 +123,7 @@ A collection of them is usually presented to the client in a `CardCounts` object
 | [/api/v1/cards/single/:id](#get---apiv1cardssingleid) | GET | | Get a single card by id |
 | [/api/v1/cards/user](#get---apiv1cardsuser) | GET | yes | Get all the cards a user has |
 | [/api/v1/cards/user](#post---apiv1cardsuser) | POST | yes | Add a card to a user's collection (or increase the quantity of existing cards) |
+| [/api/v1/cards/search/:query](#get---apiv1cardssearchquery) | GET | | Search for cards by name, collector number, set, type, color, etc. |
 
 ### Request / response examples
 
@@ -239,6 +245,32 @@ Response:
   quantity: number
   foil_quantity: number
 }
+```
+
+#### GET - /api/v1/cards/search/:query
+
+Request:
+
+```ts
+// params
+{
+  query: string
+}
+```
+
+| query | description | example |
+|---|---|---|
+| unowned | If true, only return cards that the user does not own | `?unowned=true` |
+| excludeLand | If true, exclude all land cards | `?excludeLand=true` |
+| rarity | Only return cards of a certain rarity | `?rarity=common` |
+| colors | Only return cards of a certain color | `?colors=red,blue` |
+| sets | Only return cards from a certain set | `?sets=grn,rna` |
+| types | Only return cards of a certain type | `?types=creature,land` |
+
+Response:
+
+```ts
+Card[]
 ```
 
 ## External APIs

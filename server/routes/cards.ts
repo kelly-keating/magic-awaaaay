@@ -56,4 +56,23 @@ router.post('/user', (req: JwtRequest, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
+router.get('/search/:query', (req, res) => {
+  // TODO: fix auth
+  // const userId = req.auth?.sub
+  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
+
+  console.log(req.query)
+  const conditions = {
+    unowned: req.query.unowned === 'true',
+    excludeLand: req.query.excludeLand === 'true',
+    rarity: req.query.rarity as string,
+    colors: (req.query.colors as string)?.split(','),
+    sets: (req.query.sets as string)?.split(','),
+    types: (req.query.types as string)?.split(','),
+  }
+  db.searchCards(req.params.query, conditions, userId)
+    .then((result) => res.json(result))
+    .catch((err) => res.status(500).json({ error: err.message }))
+})
+
 export default router

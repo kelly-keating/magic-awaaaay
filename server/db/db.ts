@@ -1,4 +1,5 @@
-import { Card, CardCounts, Currencies, DBCard, UserCard } from '../../models/cards'
+import { Knex } from 'knex'
+import { Card, CardCounts, Currencies, DBCard, QueryData, UserCard } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
@@ -76,6 +77,79 @@ export function getAllCardInfoForUser(userId: string): Promise<AllCardInfo> {
     getUsersCards(userId),
   ])
     .then(([cards, userCards]) => ({ cards, userCards }))
+}
+
+// TODO: what if no user id?
+export function searchCards(query: string, conditions: QueryData, userId: string): Promise<Card[]> {
+  const { sets, colors, types, rarity, excludeLand, unowned } = conditions
+  console.log(conditions)
+
+  const cardMatchesQuery = (qB: Knex.QueryBuilder) => qB
+    .where('name', 'like', `%${query}%`)
+    .orWhere('set', 'like', `%${query}%`)
+    .orWhere('set_name', 'like', `%${query}%`)
+    .orWhere('collector_number', 'like', `%${query}%`)
+    .orWhere('full_collector_number', 'like', `%${query}%`)
+    .orWhere('type_line', 'like', `%${query}%`)
+    .orWhere('card_faces', 'like', `%${query}%`)
+
+  const hasColors = (qB: Knex.QueryBuilder) => {
+    if (colors) {
+      const colorKeys = {
+        red: 'R',
+        white: 'W',
+        blue: 'U',
+        black: 'B',
+        green: 'G',
+        colorless: '[]',
+      } as Record<string, string>
+
+      const cols = colors.map((color) => colorKeys[color])
+      cols.forEach((color) => {
+        qB.orWhere('colors', 'like', `%${color}%`)
+      })
+    }
+  }
+
+  const isType = (qB: Knex.QueryBuilder) => {
+    if (types) {
+      types.forEach((type) => {
+        qB.orWhere('type_line', 'like', `%${type}%`)
+      })
+    }
+  }
+
+  const queryBuilder = db('cards')
+    .limit(200)
+
+  if(query !== "allCards") {
+    queryBuilder.where(cardMatchesQuery)
+  }
+  if (colors) {
+    queryBuilder.where(hasColors)
+  }
+  if (types) {
+    queryBuilder.where(isType)
+  }
+  if (rarity) {
+    queryBuilder.where('rarity', rarity)
+  }
+  if (sets?.length) {
+    queryBuilder.whereIn('set', sets)
+  }
+  if(excludeLand) {
+    queryBuilder.whereNot('type_line', 'like', '%Land%')
+  }
+  if (unowned) {
+    queryBuilder.whereNotExists(function () {
+      this.select('*')
+        .from('users_cards')
+        .where('user_id', userId)
+        .whereRaw('users_cards.card_id = cards.id')
+    })
+  }
+
+  return queryBuilder.then((cards) => cards.map(prepCardForClient))
 }
 
 // USERS_CARDS
