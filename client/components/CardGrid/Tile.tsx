@@ -22,13 +22,13 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     return (
       <Flex justify="space-around">
         <Image
-          src={one.image_uris.small}
+          src={one.image_uris.border_crop}
           alt={card.name + ' front'}
           fallbackSrc="/card_back.png"
           style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
         />
         <Image
-          src={two.image_uris.small}
+          src={two.image_uris.border_crop}
           alt={card.name + ' back'}
           fallbackSrc="/card_back.png"
           style={{ width: 'calc(200px - (2 * var(--card-padding)))' }}
