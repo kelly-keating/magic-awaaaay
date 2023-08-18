@@ -84,6 +84,7 @@ function SetPage() {
           <MenuList>
             {blockSets.map((set) => (
               <MenuItem key={set.name}>
+                {/* TODO: make whole menu item clickable */}
                 <Link to={`/sets/${set.name}`}>{set.name}</Link>
               </MenuItem>
             ))}

@@ -9,6 +9,7 @@ interface Props {
 }
 
 function SetListing({ set }: Props) {
+  // TODO: make whole tile clickable
   return (
     <Tile
       width="100px"
