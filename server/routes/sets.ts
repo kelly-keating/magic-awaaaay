@@ -1,4 +1,4 @@
-import { JwtRequest } from '../auth0'
+import checkJwt, { JwtRequest } from '../auth0'
 import { Router } from 'express'
 const router = Router()
 
@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-// TODO: all cards from set, other sets from block, sets on either side of block
 router.get('/:set', (req, res) => {
   const { set } = req.params
   if (!set) {
@@ -39,14 +38,8 @@ router.get('/:set', (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-// /api/v1/sets/:set/cards - get all users cards from set
-// TODO: fix this and Set.jsx - Getting malformed token error
-// router.get('/:set/user', checkJwt, (req: JwtRequest, res) => {
-router.get('/:set/cards', (req: JwtRequest, res) => {
-  // TODO: fix auth
-  // const userId = req.auth?.sub
-  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
-
+router.get('/:set/user-cards', checkJwt, (req: JwtRequest, res) => {
+  const userId = req.auth?.sub
   if (!userId) {
     return res.status(401).json({ error: 'Not authorized' })
   }

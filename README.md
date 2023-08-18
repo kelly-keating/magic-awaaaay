@@ -118,7 +118,7 @@ A collection of them is usually presented to the client in a `CardCounts` object
 | [/api/v1/currencies](#get---apiv1currencies) | GET | | Get current USD and EUR conversion to NZD |
 | [/api/v1/sets](#get---apiv1sets) | GET | | Get all sets |
 | [/api/v1/sets/:set](#get---apiv1setsset) | GET | | Gets the following about one set:<li>set information</li><li>cards that are part of that set</li><li>other sets from the same block</li><li>sets on either side of the current block</li> |
-| [/api/v1/sets/:set/cards](#get---apiv1setssetcards) | GET | yes | Gets the counts of all cards a user owns in a set |
+| [/api/v1/sets/:set/user-cards](#get---apiv1setssetuser-cards) | GET | yes | Gets the counts of all cards a user owns in a set |
 | [/api/v1/cards](#get---apiv1cards) | GET | | Get all the cards |
 | [/api/v1/cards/single/:id](#get---apiv1cardssingleid) | GET | | Get a single card by id |
 | [/api/v1/cards/user](#get---apiv1cardsuser) | GET | yes | Get all the cards a user has |
@@ -163,7 +163,7 @@ Response:
 }
 ```
 
-#### GET - /api/v1/sets/:set/cards
+#### GET - /api/v1/sets/:set/user-cards
 
 Request:
 

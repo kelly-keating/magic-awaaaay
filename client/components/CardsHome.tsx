@@ -61,7 +61,9 @@ function Cards() {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const search = formData.get('search') as string
-    searchCards(search, queryData)
+    getAccessTokenSilently()
+      .then((token) => searchCards(token, search, queryData))
+      .catch(() => searchCards(null, search, queryData))
       .then((cards) => setCards(cards))
       .catch((err) => console.log(err.message))
   }

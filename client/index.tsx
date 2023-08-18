@@ -5,15 +5,16 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import routes from './routes'
 
-// TODO: replace deprecated redirectUri
-// TODO: redirectUri (config in auth0?) is not working
 document.addEventListener('DOMContentLoaded', () => {
   createRoot(document.getElementById('app') as HTMLElement).render(
     <Auth0Provider
       domain="dev-kelly.au.auth0.com"
       clientId="f5HswUt5Q5lpGBLzgPQRtK6LLD8rpSvx"
-      redirectUri={window.location.origin}
-      audience="https://magic-awaaaay/api"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: "https://magic-awaaaay/api",
+        scope: 'openid profile email offline_access'
+      }}
       useRefreshTokens={true}
       cacheLocation="localstorage"
     >

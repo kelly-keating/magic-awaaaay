@@ -1,6 +1,6 @@
 import checkJwt, { JwtRequest } from '../auth0'
 import { UserCard } from '../../models/cards'
-import { Router } from 'express'
+import { Response, Router } from 'express'
 const router = Router()
 
 import * as db from '../db/db'
@@ -17,12 +17,8 @@ router.get('/single/:id', (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-// router.get('/user', checkJwt, (req: JwtRequest, res) => {
-router.get('/user', (req: JwtRequest, res) => {
-  // TODO: fix auth
-  // const userId = req.auth?.sub
-  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
-
+router.get('/user', checkJwt, (req: JwtRequest, res) => {
+  const userId = req.auth?.sub
   if (!userId) {
     return res.status(401).json({ error: 'Not authorized' })
   }
@@ -32,12 +28,8 @@ router.get('/user', (req: JwtRequest, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-// router.post('/add/user', checkJwt, (req: JwtRequest, res) => {
-router.post('/user', (req: JwtRequest, res) => {
-  // TODO: fix auth
-  // const userId = req.auth?.sub
-  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
-
+router.post('/user', checkJwt, (req: JwtRequest, res) => {
+  const userId = req.auth?.sub
   if (!userId) {
     return res.status(401).json({ error: 'Not authorized' })
   }
@@ -56,12 +48,11 @@ router.post('/user', (req: JwtRequest, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-router.get('/search/:query', (req, res) => {
-  // TODO: fix auth
-  // const userId = req.auth?.sub
-  const userId = 'auth0|64c2562d37faca9ac3e3b60d'
+router.get('/search/:query/loggedIn', checkJwt, searchRoute)
+router.get('/search/:query', searchRoute)
 
-  console.log(req.query)
+function searchRoute(req: JwtRequest, res: Response) {
+  const userId = req.auth?.sub || null
   const conditions = {
     unowned: req.query.unowned === 'true',
     excludeLand: req.query.excludeLand === 'true',
@@ -70,9 +61,10 @@ router.get('/search/:query', (req, res) => {
     sets: (req.query.sets as string)?.split(','),
     types: (req.query.types as string)?.split(','),
   }
+
   db.searchCards(req.params.query, conditions, userId)
     .then((result) => res.json(result))
     .catch((err) => res.status(500).json({ error: err.message }))
-})
+}
 
 export default router

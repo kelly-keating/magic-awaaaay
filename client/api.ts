@@ -30,7 +30,7 @@ export function getCardById(id: string): Promise<Card> {
 
 export function getUsersCardsFromSet(token: string, setName: string): Promise<CardCounts> {
   return request
-    .get(`/api/v1/sets/${setName}/cards`)
+    .get(`/api/v1/sets/${setName}/user-cards`)
     .set('Authorization', `Bearer ${token}`)
     .then((res) => res.body)
 }
@@ -54,7 +54,7 @@ export function addCardToUser(token: string, cardId: string, normal: number, foi
     .then((res) => res.body)
 }
 
-export function searchCards(query: string, conditions: QueryData): Promise<Card[]> {
+export function searchCards(token: string | null, query: string, conditions: QueryData): Promise<Card[]> {
   const qs = []
 
   if(query === "") query = "allCards"
@@ -66,7 +66,13 @@ export function searchCards(query: string, conditions: QueryData): Promise<Card[
   if(conditions.excludeLand) qs.push(`excludeLand=${conditions.excludeLand}`)
   if(qs.length) query += `?${qs.join('&')}`
 
-  return request.get(`/api/v1/cards/search/${query}`).then((res) => res.body)
+  if(token) {
+    return request.get(`/api/v1/cards/search/${query}/loggedIn`)
+      .set('Authorization', `Bearer ${token}`)
+      .then((res) => res.body)
+  } else {
+    return request.get(`/api/v1/cards/search/${query}`).then((res) => res.body)
+  }
 }
 
 // PRICES

@@ -80,7 +80,7 @@ export function getAllCardInfoForUser(userId: string): Promise<AllCardInfo> {
 }
 
 // TODO: what if no user id?
-export function searchCards(query: string, conditions: QueryData, userId: string): Promise<Card[]> {
+export function searchCards(query: string, conditions: QueryData, userId: string | null): Promise<Card[]> {
   const { sets, colors, types, rarity, excludeLand, unowned } = conditions
 
   const cardMatchesQuery = (qB: Knex.QueryBuilder) => qB
@@ -139,7 +139,7 @@ export function searchCards(query: string, conditions: QueryData, userId: string
   if(excludeLand) {
     queryBuilder.whereNot('type_line', 'like', '%Land%')
   }
-  if (unowned) {
+  if (userId && unowned) {
     queryBuilder.whereNotExists(function () {
       this.select('*')
         .from('users_cards')
