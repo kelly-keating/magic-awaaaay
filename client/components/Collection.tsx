@@ -57,14 +57,6 @@ function Collection() {
       .catch((err) => alert(err.message))
   }, [getAccessTokenSilently])
 
-  // const renderSet = (name: string) => (
-  //   <>
-  //     <Heading as="h3">{name}</Heading>
-  //     <p>Card 1</p>
-  //     <p>Card 2</p>
-  //     <p>Card 3</p>
-  //   </>
-  // )
 
   return (
     <>
@@ -74,13 +66,7 @@ function Collection() {
         <p>Total value: ${totalValue.toFixed(2)}</p>
       </section>
 
-      {/* <section>
-        {renderSet('ixalan')}
-        {renderSet('rivals')}
-        {renderSet('war of the spark')}
-      </section> */}
-
-      {cardCounts && <CardGrid cards={cards} cardCounts={cardCounts} updateCount={() => {}} />}
+      <CardGrid cards={cards} cardCounts={cardCounts || {}} updateCount={() => {}} />
 
       <Link to="/">Home</Link>
     </>

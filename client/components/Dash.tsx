@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import { Heading } from '@chakra-ui/react'
 import { Link } from './utils'
 import Login from './Login'
-import { useAuth0 } from '@auth0/auth0-react'
 
 function Dash() {
   const { user } = useAuth0()
@@ -17,6 +17,9 @@ function Dash() {
         <nav>
             <Link to="/sets">
               Sets
+            </Link>
+            <Link to="/">
+              Search cards
             </Link>
             {user && <Link to="/collection">Collection</Link>}
         </nav>

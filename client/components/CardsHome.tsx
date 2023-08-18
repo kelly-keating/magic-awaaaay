@@ -222,8 +222,7 @@ function Cards() {
         <Button onClick={handleSetAdd}>Add set</Button>
       </div>
 
-      {/* TODO: what if they're not logged in? there will be no card counts but we still want grid */}
-      {cardCounts && <CardGrid cards={cards} cardCounts={cardCounts} updateCount={updateCardCount} />}
+      <CardGrid cards={cards} cardCounts={cardCounts || {}} updateCount={updateCardCount} />
     </>
   )
 }

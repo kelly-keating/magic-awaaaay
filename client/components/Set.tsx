@@ -7,9 +7,9 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Button, Flex, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { ArrowLeft, ArrowRight, ChevronDown, Link } from './utils'
 import CardGrid from './CardGrid/Grid'
+import SetListing from './Sets/SetListing'
 
 import { getSetInformation, getUsersCardsFromSet } from '../api'
-import SetListing from './Sets/SetListing'
 
 function SetPage() {
   const { getAccessTokenSilently, user } = useAuth0()
@@ -47,13 +47,9 @@ function SetPage() {
     }
   }, [setName])
 
-  // TODO: fix the auth0 stuff - reinitialize, rollback version, etc etc
-  // TODO: check error fixed with route
   useEffect(() => {
     if (setName && user) {
       getAccessTokenSilently()
-      // getAccessTokenSilently({ authorizationParams: { audience: 'https://magic-awaaaay/api/'}})
-      // .then((token) => console.log({token}, 'payload:', (token as unknown as string).split(".")[1]))
         .then(token => getUsersCardsFromSet(token, setName))
         .then((cardCounts) => setCounts(cardCounts))
         .catch((err) => alert(err.message))
@@ -70,9 +66,7 @@ function SetPage() {
 
   const uniqueOwned = Object.keys(counts).length
   const totalOwned = Object.values(counts).reduce((total, { normal, foil }) => total + normal + foil, 0)
-
-  // TODO: Add link to other sets in block
-
+  
   return (
     <>
       <section>

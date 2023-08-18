@@ -2,8 +2,6 @@ import * as rrd from 'react-router-dom'
 import * as chakra from '@chakra-ui/react'
 import * as icons from '@chakra-ui/icons'
 
-// TODO: Does @chakra-ui/react make most of this irrelevant? Can they all be imported directly from there instead?
-
 interface LinkProps {
   children: React.ReactNode
   to: string

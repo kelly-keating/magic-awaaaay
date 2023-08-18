@@ -79,7 +79,6 @@ export function getAllCardInfoForUser(userId: string): Promise<AllCardInfo> {
     .then(([cards, userCards]) => ({ cards, userCards }))
 }
 
-// TODO: what if no user id?
 export function searchCards(query: string, conditions: QueryData, userId: string | null): Promise<Card[]> {
   const { sets, colors, types, rarity, excludeLand, unowned } = conditions
 
