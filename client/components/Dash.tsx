@@ -12,16 +12,12 @@ function Dash() {
     <>
       <header>
         <Link to="/">
-        <Heading as="h1">Magic awaaaay!</Heading>
+          <Heading as="h1">Magic awaaaay!</Heading>
         </Link>
         <nav>
-            <Link to="/sets">
-              Sets
-            </Link>
-            <Link to="/">
-              Search cards
-            </Link>
-            {user && <Link to="/collection">Collection</Link>}
+          <Link to="/sets">Sets</Link>
+          <Link to="/">Search cards</Link>
+          {user && <Link to="/collection">Collection</Link>}
         </nav>
         <Login />
       </header>

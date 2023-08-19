@@ -1,5 +1,12 @@
 import { Knex } from 'knex'
-import { Card, CardCounts, Currencies, DBCard, QueryData, UserCard } from '../../models/cards'
+import {
+  Card,
+  CardCounts,
+  Currencies,
+  DBCard,
+  QueryData,
+  UserCard,
+} from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
@@ -7,7 +14,8 @@ import db from './connection'
 // CURRENT PRICES
 
 export function getCurrencies(): Promise<Currencies> {
-  return db('currencies').first()
+  return db('currencies')
+    .first()
     .then(({ usd, eur, date }) => ({
       usd: Number(usd),
       eur: Number(eur),
@@ -17,18 +25,15 @@ export function getCurrencies(): Promise<Currencies> {
 
 export function updateCurrencies(currencies: Currencies): Promise<void> {
   const { usd, eur, date } = currencies
-  return db('currencies')
-    .update({
-      usd: String(usd),
-      eur: String(eur),
-      date,
-    })
+  return db('currencies').update({
+    usd: String(usd),
+    eur: String(eur),
+    date,
+  })
 }
 
 export function updateCardPrices(id: string, prices: string): Promise<number> {
-  return db('cards')
-    .update({ prices })
-    .where('id', id)
+  return db('cards').update({ prices }).where('id', id)
 }
 
 // CARDS
@@ -56,8 +61,7 @@ export function getCardsByUserId(userId: string): Promise<Card[]> {
 }
 
 export function getCardById(id: string): Promise<Card> {
-  return db('cards').where('id', id).first()
-    .then(prepCardForClient)
+  return db('cards').where('id', id).first().then(prepCardForClient)
 }
 
 export function getCardsFromSet(set: string): Promise<Card[]> {
@@ -72,24 +76,26 @@ interface AllCardInfo {
   userCards: CardCounts
 }
 export function getAllCardInfoForUser(userId: string): Promise<AllCardInfo> {
-  return Promise.all([
-    getCardsByUserId(userId),
-    getUsersCards(userId),
-  ])
+  return Promise.all([getCardsByUserId(userId), getUsersCards(userId)])
     .then(([cards, userCards]) => ({ cards, userCards }))
 }
 
-export function searchCards(query: string, conditions: QueryData, userId: string | null): Promise<Card[]> {
+export function searchCards(
+  query: string,
+  conditions: QueryData,
+  userId: string | null,
+): Promise<Card[]> {
   const { sets, colors, types, rarity, excludeLand, unowned } = conditions
 
-  const cardMatchesQuery = (qB: Knex.QueryBuilder) => qB
-    .where('name', 'like', `%${query}%`)
-    .orWhere('set', 'like', `%${query}%`)
-    .orWhere('set_name', 'like', `%${query}%`)
-    .orWhere('collector_number', 'like', `%${query}%`)
-    .orWhere('full_collector_number', 'like', `%${query}%`)
-    .orWhere('type_line', 'like', `%${query}%`)
-    .orWhere('card_faces', 'like', `%${query}%`)
+  const cardMatchesQuery = (qB: Knex.QueryBuilder) =>
+    qB
+      .where('name', 'like', `%${query}%`)
+      .orWhere('set', 'like', `%${query}%`)
+      .orWhere('set_name', 'like', `%${query}%`)
+      .orWhere('collector_number', 'like', `%${query}%`)
+      .orWhere('full_collector_number', 'like', `%${query}%`)
+      .orWhere('type_line', 'like', `%${query}%`)
+      .orWhere('card_faces', 'like', `%${query}%`)
 
   const hasColors = (qB: Knex.QueryBuilder) => {
     if (colors) {
@@ -117,10 +123,9 @@ export function searchCards(query: string, conditions: QueryData, userId: string
     }
   }
 
-  const queryBuilder = db('cards')
-    .limit(200)
+  const queryBuilder = db('cards').limit(200)
 
-  if(query !== "allCards") {
+  if (query !== 'allCards') {
     queryBuilder.where(cardMatchesQuery)
   }
   if (colors) {
@@ -135,7 +140,7 @@ export function searchCards(query: string, conditions: QueryData, userId: string
   if (sets?.length) {
     queryBuilder.whereIn('set', sets)
   }
-  if(excludeLand) {
+  if (excludeLand) {
     queryBuilder.whereNot('type_line', 'like', '%Land%')
   }
   if (userId && unowned) {
@@ -153,12 +158,13 @@ export function searchCards(query: string, conditions: QueryData, userId: string
 // USERS_CARDS
 
 export function getUsersCards(userId: string): Promise<CardCounts> {
-  return db('users_cards')
-    .where('user_id', userId)
-    .then(condenseUserCards)
+  return db('users_cards').where('user_id', userId).then(condenseUserCards)
 }
 
-export function getUsersCardsFromSet(set: string, userId: string): Promise<CardCounts> {
+export function getUsersCardsFromSet(
+  set: string,
+  userId: string,
+): Promise<CardCounts> {
   return db('users_cards')
     .select('users_cards.*')
     .join('cards', 'cards.id', 'users_cards.card_id')
@@ -183,7 +189,10 @@ export function updateUserCard(card: UserCard): Promise<UserCard> {
     .then((result) => result[0])
 }
 
-export function checkUserCardExists(cardId: string, userId: string): Promise<boolean> {
+export function checkUserCardExists(
+  cardId: string,
+  userId: string,
+): Promise<boolean> {
   return db('users_cards')
     .where('card_id', cardId)
     .andWhere('user_id', userId)
@@ -201,24 +210,28 @@ export function getSetByName(name: string): Promise<Set> {
   return db('sets').where('name', name).first()
 }
 
-function getTwoNeighbours(released_at: string, direction: 'before' | 'after'): Promise<Set[]> {
+function getTwoNeighbours(
+  released_at: string,
+  direction: 'before' | 'after',
+): Promise<Set[]> {
   return db('sets')
     .where('released_at', direction === 'before' ? '<' : '>', released_at)
     .orderBy('released_at', direction === 'before' ? 'desc' : 'asc')
     .limit(2)
-    .then((result) => direction === 'before' ? result.reverse() : result)
+    .then((result) => (direction === 'before' ? result.reverse() : result))
 }
 
 export function getSetsFromBlock(blockName: string): Promise<Set[]> {
   return db('sets').where('block', blockName).orderBy('released_at')
 }
 
-export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSets> {
+export function getNeighbouringSets(
+  releasedAt: string,
+): Promise<NeighbouringSets> {
   return Promise.all([
-      getTwoNeighbours(releasedAt, 'before'),
-      getTwoNeighbours(releasedAt, 'after'),
-    ])
-    .then(([before, after]) => ({ before, after }))
+    getTwoNeighbours(releasedAt, 'before'),
+    getTwoNeighbours(releasedAt, 'after'),
+  ]).then(([before, after]) => ({ before, after }))
 }
 
 // ----- UTILS ------ //
@@ -227,7 +240,7 @@ export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSet
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function prepCardForDb(card: Card): DBCard {
   const { card_faces, color_identity, image_uris, prices, ...rest } = card
-  
+
   return {
     ...rest,
     card_faces: JSON.stringify(card_faces),

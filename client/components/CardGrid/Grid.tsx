@@ -14,7 +14,13 @@ function Grid({ cards, cardCounts, maxNum, updateCount }: Props) {
   return (
     <Flex wrap="wrap" justify="center">
       {cards.map((card) => (
-        <Tile key={card.id} card={card} count={cardCounts[card.id]} maxNum={maxNum} updateCount={updateCount} />
+        <Tile
+          key={card.id}
+          card={card}
+          count={cardCounts[card.id]}
+          maxNum={maxNum}
+          updateCount={updateCount}
+        />
       ))}
     </Flex>
   )

@@ -19,7 +19,9 @@ server.use('/api/v1/sets/', sets)
 
 server.get('/api/v1/currencies', async (req, res) => {
   const fcaKey = process.env.FCA_KEY
-  const url = "https://api.freecurrencyapi.com/v1/latest?base_currency=NZD&currencies=USD,EUR&apikey=" + fcaKey
+  const url =
+    'https://api.freecurrencyapi.com/v1/latest?base_currency=NZD&currencies=USD,EUR&apikey=' +
+    fcaKey
 
   try {
     const currencies = await db.getCurrencies()
@@ -44,16 +46,17 @@ server.get('/api/v1/currencies', async (req, res) => {
 
 function updatePrices() {
   const updateCardPrice = (id: string) => {
-    return request.get(`https://api.scryfall.com/cards/${id}`)
+    return request
+      .get(`https://api.scryfall.com/cards/${id}`)
       .then((response) => JSON.stringify(response.body.prices))
       .then((prices) => db.updateCardPrices(id, prices))
-  } 
-  
+  }
+
   db.getAllOwnedCards()
     .then((cards) => {
       console.log(`--- Updating ${cards.length} prices ---`)
-      const promises = cards.map(({id}) => updateCardPrice(id))
-      return Promise.all(promises) 
+      const promises = cards.map(({ id }) => updateCardPrice(id))
+      return Promise.all(promises)
     })
     .then(() => console.log('---> Prices updated'))
     .catch((err) => console.log(err))

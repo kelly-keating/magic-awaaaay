@@ -155,9 +155,16 @@ function Cards() {
         {queryData.unowned && <Tag>unowned only</Tag>}
         {queryData.excludeLand && <Tag>no land</Tag>}
         {queryData.rarity && <Tag>{queryData.rarity}</Tag>}
-        {queryData.colors && queryData.colors.map((color) => <Tag key={color} colorScheme={color}>{color}</Tag>)}
-        {queryData.types && queryData.types.map((type) => <Tag key={type}>{type}</Tag>)}
-        {queryData.sets && queryData.sets.map((set) => <Tag key={set}>Set: {set}</Tag>)}
+        {queryData.colors &&
+          queryData.colors.map((color) => (
+            <Tag key={color} colorScheme={color}>
+              {color}
+            </Tag>
+          ))}
+        {queryData.types &&
+          queryData.types.map((type) => <Tag key={type}>{type}</Tag>)}
+        {queryData.sets &&
+          queryData.sets.map((set) => <Tag key={set}>Set: {set}</Tag>)}
       </Stack>
 
       {/* TODO: decide what to do about multiple search terms later */}
@@ -179,10 +186,10 @@ function Cards() {
 
       <div hidden={!showAdvanced}>
         <label htmlFor="unowned">Only show cards not yet owned</label>
-        <Switch id="unowned" onChange={handleOwnership}/>
+        <Switch id="unowned" onChange={handleOwnership} />
 
         <label htmlFor="exclude-land">Exclude land cards</label>
-        <Switch id="exclude-land" onChange={handleExcludeLand}/>
+        <Switch id="exclude-land" onChange={handleExcludeLand} />
 
         <Select placeholder="Rarity" onChange={handleRarity}>
           <option value="common">Common</option>
@@ -193,12 +200,24 @@ function Cards() {
 
         <p>Colours:</p>
         <Stack spacing={5} direction="row">
-          <Checkbox value="black" onChange={handleColors}>Black</Checkbox>
-          <Checkbox value="blue" onChange={handleColors}>Blue</Checkbox>
-          <Checkbox value="green" onChange={handleColors}>Green</Checkbox>
-          <Checkbox value="red" onChange={handleColors}>Red</Checkbox>
-          <Checkbox value="white" onChange={handleColors}>White</Checkbox>
-          <Checkbox value="colorless" onChange={handleColors}>Colorless</Checkbox>
+          <Checkbox value="black" onChange={handleColors}>
+            Black
+          </Checkbox>
+          <Checkbox value="blue" onChange={handleColors}>
+            Blue
+          </Checkbox>
+          <Checkbox value="green" onChange={handleColors}>
+            Green
+          </Checkbox>
+          <Checkbox value="red" onChange={handleColors}>
+            Red
+          </Checkbox>
+          <Checkbox value="white" onChange={handleColors}>
+            White
+          </Checkbox>
+          <Checkbox value="colorless" onChange={handleColors}>
+            Colorless
+          </Checkbox>
         </Stack>
 
         <Select placeholder="Type" onChange={handleTypeChange}>
@@ -222,7 +241,11 @@ function Cards() {
         <Button onClick={handleSetAdd}>Add set</Button>
       </div>
 
-      <CardGrid cards={cards} cardCounts={cardCounts || {}} updateCount={updateCardCount} />
+      <CardGrid
+        cards={cards}
+        cardCounts={cardCounts || {}}
+        updateCount={updateCardCount}
+      />
     </>
   )
 }

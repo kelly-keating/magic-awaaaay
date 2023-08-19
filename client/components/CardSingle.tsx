@@ -2,7 +2,15 @@ import { Card, Currencies } from '../../models/cards'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Heading, Image, Stat, StatGroup, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react'
+import {
+  Heading,
+  Image,
+  Stat,
+  StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+} from '@chakra-ui/react'
 import { Link } from './utils'
 
 import { getCardById, getCurrencies } from '../api'
@@ -38,9 +46,9 @@ function CardPage() {
 
     const getTotal = (usd: number, eur: number) => {
       if (usd && eur) {
-        return ((usd * conversion.usd) + (eur * conversion.eur)) / 2
+        return (usd * conversion.usd + eur * conversion.eur) / 2
       } else if (usd) {
-       return usd * conversion.usd
+        return usd * conversion.usd
       } else if (eur) {
         return eur * conversion.eur
       } else {
@@ -79,21 +87,29 @@ function CardPage() {
                 fallbackSrc="/card_back.png"
               />
             )}
-            
+
             <Heading as="h2">{card.name}</Heading>
-            <Heading as="h3"><Link to={`/sets/${card.set_name}`}>{card.set_name}</Link></Heading>
+            <Heading as="h3">
+              <Link to={`/sets/${card.set_name}`}>{card.set_name}</Link>
+            </Heading>
 
             <StatGroup>
               <Stat>
                 <StatLabel>Regular</StatLabel>
-                <StatNumber>${nzd ? nzd.toFixed(2) : " - "}</StatNumber>
-                <StatHelpText>TCGplayer (US${prices?.usd || " - "}) | Cardmarket (€{prices?.eur || " - "})</StatHelpText>
+                <StatNumber>${nzd ? nzd.toFixed(2) : ' - '}</StatNumber>
+                <StatHelpText>
+                  TCGplayer (US${prices?.usd || ' - '}) | Cardmarket (€
+                  {prices?.eur || ' - '})
+                </StatHelpText>
               </Stat>
 
               <Stat>
                 <StatLabel>Foil</StatLabel>
-                <StatNumber>${nzdFoil ? nzdFoil.toFixed(2) : " - "}</StatNumber>
-                <StatHelpText>TCGplayer (US${prices?.usd_foil || " - "}) | Cardmarket (€{prices?.eur_foil || " - "})</StatHelpText>
+                <StatNumber>${nzdFoil ? nzdFoil.toFixed(2) : ' - '}</StatNumber>
+                <StatHelpText>
+                  TCGplayer (US${prices?.usd_foil || ' - '}) | Cardmarket (€
+                  {prices?.eur_foil || ' - '})
+                </StatHelpText>
               </Stat>
             </StatGroup>
 
@@ -112,13 +128,11 @@ function CardPage() {
         )}
       </section>
 
-      {
-        card ? (
-          <Link to={"/sets/" + card?.set_name}>Back to set</Link>
-        ) : (
-          <Link to="/">Home</Link>
-        ) 
-      }
+      {card ? (
+        <Link to={'/sets/' + card?.set_name}>Back to set</Link>
+      ) : (
+        <Link to="/">Home</Link>
+      )}
     </>
   )
 }

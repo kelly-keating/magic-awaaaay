@@ -43,7 +43,9 @@ router.post('/user', checkJwt, (req: JwtRequest, res) => {
   } as UserCard
 
   db.checkUserCardExists(cardId, userId)
-    .then((alreadyOwned) => alreadyOwned ? db.updateUserCard(userCard) : db.addCardToUser(userCard))
+    .then((alreadyOwned) =>
+      alreadyOwned ? db.updateUserCard(userCard) : db.addCardToUser(userCard),
+    )
     .then((result) => res.json(result))
     .catch((err) => res.status(500).json({ error: err.message }))
 })

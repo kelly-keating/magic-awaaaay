@@ -92,7 +92,7 @@ A collection of them is usually presented to the client in a `CardCounts` object
   "some-id": {
     normal: number
     foil: number
-  }, 
+  },
   "some-other-id": {
     normal: number
     foil: number
@@ -113,17 +113,17 @@ A collection of them is usually presented to the client in a `CardCounts` object
 
 ## API routes
 
-| path | method | protected | purpose |
-|---|---|---|---|
-| [/api/v1/currencies](#get---apiv1currencies) | GET | | Get current USD and EUR conversion to NZD |
-| [/api/v1/sets](#get---apiv1sets) | GET | | Get all sets |
-| [/api/v1/sets/:set](#get---apiv1setsset) | GET | | Gets the following about one set:<li>set information</li><li>cards that are part of that set</li><li>other sets from the same block</li><li>sets on either side of the current block</li> |
-| [/api/v1/sets/:set/user-cards](#get---apiv1setssetuser-cards) | GET | yes | Gets the counts of all cards a user owns in a set |
-| [/api/v1/cards](#get---apiv1cards) | GET | | Get all the cards |
-| [/api/v1/cards/single/:id](#get---apiv1cardssingleid) | GET | | Get a single card by id |
-| [/api/v1/cards/user](#get---apiv1cardsuser) | GET | yes | Get all the cards a user has |
-| [/api/v1/cards/user](#post---apiv1cardsuser) | POST | yes | Add a card to a user's collection (or increase the quantity of existing cards) |
-| [/api/v1/cards/search/:query](#get---apiv1cardssearchquery) | GET | | Search for cards by name, collector number, set, type, color, etc. |
+| path                                                          | method | protected | purpose                                                                                                                                                                                   |
+| ------------------------------------------------------------- | ------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [/api/v1/currencies](#get---apiv1currencies)                  | GET    |           | Get current USD and EUR conversion to NZD                                                                                                                                                 |
+| [/api/v1/sets](#get---apiv1sets)                              | GET    |           | Get all sets                                                                                                                                                                              |
+| [/api/v1/sets/:set](#get---apiv1setsset)                      | GET    |           | Gets the following about one set:<li>set information</li><li>cards that are part of that set</li><li>other sets from the same block</li><li>sets on either side of the current block</li> |
+| [/api/v1/sets/:set/user-cards](#get---apiv1setssetuser-cards) | GET    | yes       | Gets the counts of all cards a user owns in a set                                                                                                                                         |
+| [/api/v1/cards](#get---apiv1cards)                            | GET    |           | Get all the cards                                                                                                                                                                         |
+| [/api/v1/cards/single/:id](#get---apiv1cardssingleid)         | GET    |           | Get a single card by id                                                                                                                                                                   |
+| [/api/v1/cards/user](#get---apiv1cardsuser)                   | GET    | yes       | Get all the cards a user has                                                                                                                                                              |
+| [/api/v1/cards/user](#post---apiv1cardsuser)                  | POST   | yes       | Add a card to a user's collection (or increase the quantity of existing cards)                                                                                                            |
+| [/api/v1/cards/search/:query](#get---apiv1cardssearchquery)   | GET    |           | Search for cards by name, collector number, set, type, color, etc.                                                                                                                        |
 
 ### Request / response examples
 
@@ -170,7 +170,7 @@ Request:
 ```ts
 // header
 {
-  Authorization: "Bearer <token>"
+  Authorization: 'Bearer <token>'
 }
 ```
 
@@ -179,7 +179,6 @@ Response:
 ```ts
 CardCounts
 ```
-
 
 #### GET - /api/v1/cards
 
@@ -204,7 +203,7 @@ Request:
 ```ts
 // header
 {
-  Authorization: "Bearer <token>"
+  Authorization: 'Bearer <token>'
 }
 ```
 
@@ -220,11 +219,11 @@ Response:
 #### POST - /api/v1/cards/user
 
 Request
-  
+
 ```ts
 // header
 {
-  Authorization: "Bearer <token>"
+  Authorization: 'Bearer <token>'
 }
 
 // body
@@ -258,14 +257,14 @@ Request:
 }
 ```
 
-| query | description | example |
-|---|---|---|
-| unowned | If true, only return cards that the user does not own | `?unowned=true` |
-| excludeLand | If true, exclude all land cards | `?excludeLand=true` |
-| rarity | Only return cards of a certain rarity | `?rarity=common` |
-| colors | Only return cards of a certain color | `?colors=red,blue` |
-| sets | Only return cards from a certain set | `?sets=grn,rna` |
-| types | Only return cards of a certain type | `?types=creature,land` |
+| query       | description                                           | example                |
+| ----------- | ----------------------------------------------------- | ---------------------- |
+| unowned     | If true, only return cards that the user does not own | `?unowned=true`        |
+| excludeLand | If true, exclude all land cards                       | `?excludeLand=true`    |
+| rarity      | Only return cards of a certain rarity                 | `?rarity=common`       |
+| colors      | Only return cards of a certain color                  | `?colors=red,blue`     |
+| sets        | Only return cards from a certain set                  | `?sets=grn,rna`        |
+| types       | Only return cards of a certain type                   | `?types=creature,land` |
 
 Response:
 

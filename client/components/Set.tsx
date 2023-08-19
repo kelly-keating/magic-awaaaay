@@ -4,7 +4,15 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
-import { Button, Flex, Heading, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/react'
 import { ArrowLeft, ArrowRight, ChevronDown, Link } from './utils'
 import CardGrid from './CardGrid/Grid'
 import SetListing from './Sets/SetListing'
@@ -50,7 +58,7 @@ function SetPage() {
   useEffect(() => {
     if (setName && user) {
       getAccessTokenSilently()
-        .then(token => getUsersCardsFromSet(token, setName))
+        .then((token) => getUsersCardsFromSet(token, setName))
         .then((cardCounts) => setCounts(cardCounts))
         .catch((err) => alert(err.message))
     }
@@ -65,46 +73,66 @@ function SetPage() {
   }
 
   const uniqueOwned = Object.keys(counts).length
-  const totalOwned = Object.values(counts).reduce((total, { normal, foil }) => total + normal + foil, 0)
-  
+  const totalOwned = Object.values(counts).reduce(
+    (total, { normal, foil }) => total + normal + foil,
+    0,
+  )
+
   return (
     <>
       <section>
         <Heading as="h2">{setName}!</Heading>
         <p>What a cool set</p>
 
-        {fullSet && <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDown />}>{fullSet.block} Block</MenuButton>
-          <MenuList>
-            {blockSets.map((set) => (
-              <MenuItem key={set.name}>
-                {/* TODO: make whole menu item clickable */}
-                <Link to={`/sets/${set.name}`}>{set.name}</Link>
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>}
+        {fullSet && (
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDown />}>
+              {fullSet.block} Block
+            </MenuButton>
+            <MenuList>
+              {blockSets.map((set) => (
+                <MenuItem key={set.name}>
+                  {/* TODO: make whole menu item clickable */}
+                  <Link to={`/sets/${set.name}`}>{set.name}</Link>
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        )}
 
-        <p>Unique cards: {uniqueCards} ({variants.length} variants)</p>
-        <p>Unique cards owned: {uniqueOwned} ({totalOwned} total)</p>
+        <p>
+          Unique cards: {uniqueCards} ({variants.length} variants)
+        </p>
+        <p>
+          Unique cards owned: {uniqueOwned} ({totalOwned} total)
+        </p>
         {missingNumbers}
       </section>
-      <CardGrid cards={cards} cardCounts={counts} maxNum={maxNum} updateCount={updateCardCount} />
+      <CardGrid
+        cards={cards}
+        cardCounts={counts}
+        maxNum={maxNum}
+        updateCount={updateCardCount}
+      />
       <div>
-      {neighbours && (
-        <Flex>
-          {neighbours.before.map(set => <SetListing key={set.name} set={set} />)}
-          {fullSet && <SetListing key={fullSet.name} set={fullSet} />}
-          {neighbours.after.map(set => <SetListing key={set.name} set={set} />)}
-        </Flex>
-      )}
-      <Button onClick={() => goTo('/sets/' + neighbours?.before[1].name)}>
-        <ArrowLeft />
-      </Button>
-      <Link to="/sets">See all sets</Link>
-      <Button onClick={() => goTo('/sets/' + neighbours?.after[1].name)}>
-        <ArrowRight />
-      </Button>
+        {neighbours && (
+          <Flex>
+            {neighbours.before.map((set) => (
+              <SetListing key={set.name} set={set} />
+            ))}
+            {fullSet && <SetListing key={fullSet.name} set={fullSet} />}
+            {neighbours.after.map((set) => (
+              <SetListing key={set.name} set={set} />
+            ))}
+          </Flex>
+        )}
+        <Button onClick={() => goTo('/sets/' + neighbours?.before[1].name)}>
+          <ArrowLeft />
+        </Button>
+        <Link to="/sets">See all sets</Link>
+        <Button onClick={() => goTo('/sets/' + neighbours?.after[1].name)}>
+          <ArrowRight />
+        </Button>
       </div>
     </>
   )

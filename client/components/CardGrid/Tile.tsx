@@ -37,7 +37,8 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     )
   }
 
-  const twoFaced = (card: Card): card is TwoSidedCard => Boolean(card.card_faces)
+  const twoFaced = (card: Card): card is TwoSidedCard =>
+    Boolean(card.card_faces)
 
   let bgCol = ''
   if (count && card.full_collector_number) {
@@ -52,7 +53,7 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     let { foil, normal } = count || { foil: 0, normal: 0 }
     addToFoil ? foil++ : normal++
 
-    if(!user) return alert('hey sign in bro')
+    if (!user) return alert('hey sign in bro')
 
     getAccessTokenSilently()
       .then((token) => addCardToUser(token, card.id, normal, foil))
@@ -98,9 +99,11 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
         paddingTop={0}
       >
         <QuantityButton count={count?.normal} addOne={addOne} />
-        {maxNum && <p>
-          {card.full_collector_number || card.collector_number} / {maxNum}
-        </p>}
+        {maxNum && (
+          <p>
+            {card.full_collector_number || card.collector_number} / {maxNum}
+          </p>
+        )}
         <QuantityButton count={count?.foil} foil={true} addOne={addOne} />
       </TileFooter>
     </Tile>

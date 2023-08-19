@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
+ * @returns { Promise<void> }
  */
-exports.seed = async function(knex) {
+exports.seed = async function (knex) {
   // await knex('users_cards').del()
   // await knex('users_cards').insert([
   //   { id: 1, user_id: 'auth0|64c2562d37faca9ac3e3b60d', card_id: "4e8eb264-dadb-440c-af85-273e755f1db6", quantity: 1 },

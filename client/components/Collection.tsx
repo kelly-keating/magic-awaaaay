@@ -21,7 +21,10 @@ function Collection() {
         .then((currencies) => {
           const getAvgNzd = (usd: string | null, eur: string | null) => {
             if (usd && eur) {
-              return ((Number(usd) * currencies.usd) + (Number(eur) * currencies.eur)) / 2
+              return (
+                (Number(usd) * currencies.usd + Number(eur) * currencies.eur) /
+                2
+              )
             } else if (usd) {
               return Number(usd) * currencies.usd
             } else if (eur) {
@@ -37,9 +40,9 @@ function Collection() {
             const normalPrice = getAvgNzd(usd, eur)
             const foilPrice = getAvgNzd(usd_foil, eur_foil)
 
-            const {normal, foil} = cardCounts[card.id]
-            
-            return (normal * normalPrice) + (foil * foilPrice) + total
+            const { normal, foil } = cardCounts[card.id]
+
+            return normal * normalPrice + foil * foilPrice + total
           }, 0)
         })
         .then((total) => setTotalValue(total))
@@ -57,7 +60,6 @@ function Collection() {
       .catch((err) => alert(err.message))
   }, [getAccessTokenSilently])
 
-
   return (
     <>
       <section>
@@ -66,7 +68,11 @@ function Collection() {
         <p>Total value: ${totalValue.toFixed(2)}</p>
       </section>
 
-      <CardGrid cards={cards} cardCounts={cardCounts || {}} updateCount={() => {}} />
+      <CardGrid
+        cards={cards}
+        cardCounts={cardCounts || {}}
+        updateCount={() => {}}
+      />
 
       <Link to="/">Home</Link>
     </>

@@ -56,7 +56,9 @@ function Sets() {
           <Button onClick={() => setShowCategories(!showCategories)}>
             {showCategories ? 'Show all' : 'Show categories'}
           </Button>
-          {!showCategories && <Search changeSearch={changeSearch} currentSearch={search} />}
+          {!showCategories && (
+            <Search changeSearch={changeSearch} currentSearch={search} />
+          )}
         </HStack>
       </div>
 

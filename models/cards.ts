@@ -68,7 +68,10 @@ interface ImageUris {
 }
 
 // prices and image_uris are strings in the database
-export type DBCard = Omit<Card, 'card_faces' | 'color_identity' | 'prices' | 'image_uris'> & {
+export type DBCard = Omit<
+  Card,
+  'card_faces' | 'color_identity' | 'prices' | 'image_uris'
+> & {
   card_faces: string
   color_identity: string
   image_uris: string

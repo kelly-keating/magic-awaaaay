@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
       clientId="f5HswUt5Q5lpGBLzgPQRtK6LLD8rpSvx"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: "https://magic-awaaaay/api",
-        scope: 'openid profile email offline_access'
+        audience: 'https://magic-awaaaay/api',
+        scope: 'openid profile email offline_access',
       }}
       useRefreshTokens={true}
       cacheLocation="localstorage"
