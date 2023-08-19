@@ -36,7 +36,6 @@ interface OneSidedCard extends GenericCard {
 
 export interface TwoSidedCard extends GenericCard {
   card_faces: [CardFace, CardFace]
-  image_uris: null
 }
 
 interface CardFace {

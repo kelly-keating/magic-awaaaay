@@ -37,7 +37,7 @@ function CardTile({ card, count, maxNum, updateCount }: Props) {
     )
   }
 
-  const twoFaced = (card: Card): card is TwoSidedCard => Boolean(!card.image_uris)
+  const twoFaced = (card: Card): card is TwoSidedCard => Boolean(card.card_faces)
 
   let bgCol = ''
   if (count && card.full_collector_number) {
