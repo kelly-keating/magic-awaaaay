@@ -223,6 +223,8 @@ export function getNeighbouringSets(releasedAt: string): Promise<NeighbouringSet
 
 // ----- UTILS ------ //
 
+// TODO: add ability to add new cards and sets
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function prepCardForDb(card: Card): DBCard {
   const { card_faces, color_identity, image_uris, prices, ...rest } = card
   

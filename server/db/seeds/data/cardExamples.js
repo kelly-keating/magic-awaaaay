@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const card = {
   object: 'card',
   id: 'ac709474-7790-483f-9ed5-ea7abccfce53',
