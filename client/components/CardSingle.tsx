@@ -81,7 +81,7 @@ function CardPage() {
             )}
             
             <Heading as="h2">{card.name}</Heading>
-            <Heading as="h3">{card.set_name}</Heading>
+            <Heading as="h3"><Link to={`/sets/${card.set_name}`}>{card.set_name}</Link></Heading>
 
             <StatGroup>
               <Stat>
