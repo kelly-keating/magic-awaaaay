@@ -1,5 +1,4 @@
 const request = require('superagent')
-const db = require('../server/db/connection')
 
 const fields = [
 'id',
@@ -17,22 +16,27 @@ const fields = [
 // TODO: find a way to include other sets in components
 // e.g. - code: 'ltr', name: 'The Lord of the Rings: Tales of Middle-earth',
 
-function fillDb () {
-  return request('https://api.scryfall.com/sets')
-    .then(res => pruneData(res.body.data))
-    .then(sets => reseed(sets))
-    .catch((err) => console.log('SET ERROR:', err.message))
-}
+module.exports = fillDb
 
-function reseed(data) {
-  return db('sets').delete()
-    .then(() => loopIn(data, 0))
+let db = null
+
+function fillDb (connection) {
+  db = connection
+  console.log('Requesting sets from Scryfall...')
+  return request('https://api.scryfall.com/sets')
+    .then(res => res.body.data)
+    .catch((err) => {
+      console.log('SET ERROR:', err.message)
+      console.log(' - Using default sets')
+      return require('./scryfall-sets.json')
+    })
+    .then(data => pruneData(data))
+    .then(sets => loopIn(sets, 0))
+    .then(() => console.log(' - Done!'))
 }
 
 function loopIn (arr, i) {
-  if(i >= arr.length) {
-    return db.destroy()
-  } else {
+  if(i < arr.length) {
     return db('sets').insert(arr[i])
       .then(() => loopIn(arr, i + 1))
   }
@@ -51,5 +55,3 @@ function pruneData (all) {
     return obj
   })
 }
-
-fillDb()

@@ -17,13 +17,10 @@
     "dev:client": "vite",
     "dev:server": "nodemon server/index.ts",
     "knex": "knex --knexfile ./server/db/knexfile.js",
+    "reseed": "npm run knex seed:run",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "format": "prettier --write .",
-    "reseed": "run-s seed:sets seed:cards seed:money",
-    "seed:sets": "ts-node data/processSets",
-    "seed:cards": "ts-node data/processCards",
-    "seed:money": "npm run knex seed:run"
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": "@devacademy/eslint-config/react",

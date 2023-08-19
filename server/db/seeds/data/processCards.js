@@ -1,5 +1,4 @@
 const request = require('superagent')
-const db = require('../server/db/connection')
 
 const fields = [
   'card_faces', // object
@@ -35,17 +34,23 @@ const numberFields = [
   'toughness',
 ]
 
+let db = null
 let arr = []
 
-function fillDb() {
+module.exports = fillDb
+
+function fillDb(connection) {
+  db = connection
+  // TODO: update request to current scryfall version
+  console.log('Requesting cards from Scryfall...')
   return doRequest('https://api.scryfall.com/cards')
-    .then(() => reseed())
     .catch((err) => {
       console.log('CARD ERROR:', err.message)
       console.log(' - Using default cards')
       arr = pruneData(require('./scryfall-cards.json'))
-      return reseed()
+      return
     })
+    .then(() => loopIn(0))
     .then(() => console.log(' - Done!'))
     .then(() => console.log('Total cards acquired: ' + arr.length))
 }
@@ -101,24 +106,12 @@ function pruneData(all) {
     })
 }
 
-function reseed() {
-  return db('cards')
-    .delete()
-    .then(() => loopIn(0))
-    // .then(() => Promise.all(arr.map(card => db('cards').insert(card))))
-    // .then(() => db.destroy())
-    // TODO: This is a more "efficient" way to do it, but it's not working. Receiving error:
-    // KnexTimeoutError: Knex: Timeout acquiring a connection. The pool is probably full. Are you missing a .transacting(trx) call?
-}
-
+// TODO: this way of inserting cards is slow (30,000+ cards)
+// find a way to insert many at once that doesn't break the computer, lol
 function loopIn(i) {
-  if (i >= arr.length) {
-    db.destroy()
-  } else {
+  if (i < arr.length) {
     return db('cards')
       .insert(arr[i])
       .then(() => loopIn(i + 1))
   }
 }
-
-fillDb()
