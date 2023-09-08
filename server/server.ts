@@ -64,4 +64,6 @@ function updatePrices() {
 
 // TODO: add deployment only dist redirect
 
+// TODO: add ability to add new cards and sets
+
 export default server

@@ -3,13 +3,13 @@ import {
   Card,
   CardCounts,
   Currencies,
-  DBCard,
   QueryData,
   UserCard,
 } from '../../models/cards'
 import { NeighbouringSets, Set } from '../../models/sets'
 
 import db from './connection'
+import { condenseUserCards, prepCardForClient } from './utils'
 
 // CURRENT PRICES
 
@@ -60,8 +60,8 @@ export function getCardsByUserId(userId: string): Promise<Card[]> {
     .then((cards) => cards.map(prepCardForClient))
 }
 
-export function getCardById(id: string): Promise<Card> {
-  return db('cards').where('id', id).first().then(prepCardForClient)
+export function getCardById(id: string): Promise<Card | undefined> {
+  return db('cards').where('id', id).first().then((card) => card ? prepCardForClient(card) : undefined)
 }
 
 export function getCardsFromSet(set: string): Promise<Card[]> {
@@ -206,7 +206,7 @@ export function getSets(): Promise<Set[]> {
   return db('sets').orderBy('released_at')
 }
 
-export function getSetByName(name: string): Promise<Set> {
+export function getSetByName(name: string): Promise<Set | undefined> {
   return db('sets').where('name', name).first()
 }
 
@@ -232,41 +232,4 @@ export function getNeighbouringSets(
     getTwoNeighbours(releasedAt, 'before'),
     getTwoNeighbours(releasedAt, 'after'),
   ]).then(([before, after]) => ({ before, after }))
-}
-
-// ----- UTILS ------ //
-
-// TODO: add ability to add new cards and sets
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function prepCardForDb(card: Card): DBCard {
-  const { card_faces, color_identity, image_uris, prices, ...rest } = card
-
-  return {
-    ...rest,
-    card_faces: JSON.stringify(card_faces),
-    color_identity: JSON.stringify(color_identity),
-    image_uris: JSON.stringify(image_uris),
-    prices: JSON.stringify(prices),
-  }
-}
-
-function prepCardForClient(card: DBCard): Card {
-  const { card_faces, color_identity, image_uris, prices, ...rest } = card
-  return {
-    ...rest,
-    card_faces: JSON.parse(card_faces),
-    color_identity: JSON.parse(color_identity),
-    image_uris: JSON.parse(image_uris),
-    prices: JSON.parse(prices),
-  }
-}
-
-function condenseUserCards(userCards: UserCard[]): CardCounts {
-  return userCards.reduce((obj: CardCounts, card: UserCard) => {
-    obj[card.card_id] = {
-      normal: card.quantity,
-      foil: card.foil_quantity,
-    }
-    return obj
-  }, {})
 }
