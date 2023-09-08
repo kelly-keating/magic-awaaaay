@@ -60,6 +60,14 @@ function Collection() {
       .catch((err) => alert(err.message))
   }, [getAccessTokenSilently])
 
+  const updateCardCount = (cardId: string, normal: number, foil: number) => {
+    setCardCounts((counts) => {
+      const newCounts = { ...counts }
+      newCounts[cardId] = { normal, foil }
+      return newCounts
+    })
+  }
+
   return (
     <>
       <section>
@@ -71,7 +79,7 @@ function Collection() {
       <CardGrid
         cards={cards}
         cardCounts={cardCounts || {}}
-        updateCount={() => {}}
+        updateCount={updateCardCount}
       />
 
       <Link to="/">Home</Link>

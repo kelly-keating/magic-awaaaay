@@ -18,6 +18,7 @@ const routes = createBrowserRouter(
       <Route path="sets" element={<Sets />} />
       <Route path="sets/:setName" element={<Set />} />
       <Route path="cards/:id" element={<Card />} />
+      {/* TODO: collection shouldn't be accessible unless logged in */}
       <Route path="collection" element={<Collection />} />
     </Route>,
   ),
