@@ -16,4 +16,6 @@ coverage/*
 # large data
 *scryfall-cards.json
 scryfall-sets.json
-data/cards*
+
+# System Files
+.DS_Store
