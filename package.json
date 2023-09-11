@@ -18,6 +18,7 @@
     "dev:server": "nodemon server/index.ts",
     "knex": "knex --knexfile ./server/db/knexfile.js",
     "reseed": "npm run knex seed:run",
+    "prepCards": "node server/db/seeds/data/_utils/resetCardData.js",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "format": "prettier --write ."
