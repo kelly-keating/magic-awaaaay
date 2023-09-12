@@ -13,9 +13,12 @@ coverage/*
 # Dotenv env settings
 .env
 
+# System Files
+.DS_Store
+
 # large data
 *scryfall-cards.json
 scryfall-sets.json
 
-# System Files
-.DS_Store
+# Generated Seeds for Deployment
+cards

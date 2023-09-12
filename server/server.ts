@@ -62,8 +62,13 @@ function updatePrices() {
     .catch((err) => console.log(err))
 }
 
-// TODO: add deployment only dist redirect
-
 // TODO: add ability to add new cards and sets
+
+if (process.env.NODE_ENV === 'production') {
+  server.use('/assets', express.static('/app/dist/assets'))
+  server.get('*', (req, res) => {
+    res.sendFile('/app/dist/index.html')
+  })
+} 
 
 export default server
