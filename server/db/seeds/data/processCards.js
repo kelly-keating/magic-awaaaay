@@ -12,6 +12,7 @@ function fillDb(connection) {
   db = connection
 
   console.log('Requesting cards from Scryfall...')
+  // TODO: actually try make this request before doing back up strat
   console.log(' - Using default cards')
 
   const cardsDir = path.join(__dirname, 'cards')

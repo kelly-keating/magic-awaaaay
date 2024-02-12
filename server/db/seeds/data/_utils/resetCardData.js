@@ -6,7 +6,12 @@ const path = require('node:path')
 
 async function resetCardsFolder() {
   const destinationDir = path.join(__dirname, '../cards')
-  await fs.rmdir(destinationDir, { recursive: true, force: true })
+  try {
+    await fs.rm(destinationDir, { recursive: true, force: true })
+  } catch {
+    console.log("No existing cards directory")
+  }
+  console.log("Creating cards directory")
   await fs.mkdir(destinationDir)
   
   let i = 0

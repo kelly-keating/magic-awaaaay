@@ -5,6 +5,12 @@
 ```bash
   npm install
   npm run knex migrate:latest
+```
+
+Currently cards need to be downloaded before seeding. Go to [scryfall's bulk data](https://scryfall.com/docs/api/bulk-data) and download the default cards file. This file should be placed in `server/db/seeds/data/_utils` and named `scryfall-cards.json` before running the following commands:
+
+```bash
+  npm run prepCards
   npm run reseed
 ```
 
