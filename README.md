@@ -14,6 +14,13 @@ Currently cards need to be downloaded before seeding. Go to [scryfall's bulk dat
   npm run reseed
 ```
 
+An API key needs to be obtained from [freecurrencyapi.com](https://app.freecurrencyapi.com) and added to a `.env` file in the root directory of this project. The key should be saved with the title `FCA_KEY`, i.e.:
+
+```
+FCA_KEY=fca_abcdefgh...
+```
+
+
 Server runs on port 3000, client on port 5173.
 
 ```bash
