@@ -6,7 +6,7 @@ import {
   QueryData,
   UserCard,
 } from '../models/cards'
-import { NeighbouringSets, Set } from '../models/sets'
+import { Neighbours, Set } from '../models/sets'
 
 // SETS
 
@@ -18,7 +18,7 @@ interface SetInformation {
   set: Set
   cards: Card[]
   blockSets: Set[]
-  neighbours: NeighbouringSets
+  neighbours: Neighbours
 }
 export function getSetInformation(setName: string): Promise<SetInformation> {
   return request.get(`/api/v1/sets/${setName}`).then((res) => res.body)

@@ -24,3 +24,5 @@ document.addEventListener('DOMContentLoaded', () => {
     </Auth0Provider>,
   )
 })
+
+// TODO: use useMemo and useCallback everywhere, lol

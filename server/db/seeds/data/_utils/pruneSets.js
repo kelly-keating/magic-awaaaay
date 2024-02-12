@@ -10,7 +10,8 @@ const fields = [
   'icon_svg_uri',
   'released_at',
   'set_type',
-  'uri'
+  'uri',
+  'parent_set_code',
   ]
 
 function pruneSetData (all) {

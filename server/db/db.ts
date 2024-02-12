@@ -6,7 +6,7 @@ import {
   QueryData,
   UserCard,
 } from '../../models/cards'
-import { NeighbouringSets, Set } from '../../models/sets'
+import { Neighbours, OneSideNeighbours, Set } from '../../models/sets'
 
 import db from './connection'
 import { condenseUserCards, prepCardForClient } from './utils'
@@ -213,21 +213,26 @@ export function getSetByName(name: string): Promise<Set | undefined> {
 function getTwoNeighbours(
   released_at: string,
   direction: 'before' | 'after',
-): Promise<Set[]> {
+): Promise<OneSideNeighbours> {
   return db('sets')
     .where('released_at', direction === 'before' ? '<' : '>', released_at)
     .orderBy('released_at', direction === 'before' ? 'desc' : 'asc')
     .limit(2)
-    .then((result) => (direction === 'before' ? result.reverse() : result))
+    .then((result) => {
+      return {
+        near: result[0] || null,
+        far: result[1] || null,
+      }
+    })
 }
 
-export function getSetsFromBlock(blockName: string): Promise<Set[]> {
+export function getSetsFromBlock(blockName: string | null): Promise<Set[]> {
   return db('sets').where('block', blockName).orderBy('released_at')
 }
 
 export function getNeighbouringSets(
   releasedAt: string,
-): Promise<NeighbouringSets> {
+): Promise<Neighbours> {
   return Promise.all([
     getTwoNeighbours(releasedAt, 'before'),
     getTwoNeighbours(releasedAt, 'after'),
