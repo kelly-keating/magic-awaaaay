@@ -16,6 +16,7 @@ function fillDb (connection) {
     .catch((err) => {
       console.log('SET ERROR:', err.message)
       console.log(' - Using default sets')
+      // TODO: this json bulk no longer exists??
       return require('./scryfall-sets.json')
     })
     .then(data => pruneSetData(data))
