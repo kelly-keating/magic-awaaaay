@@ -47,6 +47,13 @@ function SetPage() {
   // ------
 
   useEffect(() => {
+    const resetData = () => {
+      setFullSet(null)
+      setCards([])
+      setCounts({})
+      setBlockSets([])
+      setNeighbours(null)
+    }
     if (setName) {
       getSetInformation(setName)
         .then(({ set, cards, blockSets, neighbours }) => {
@@ -55,7 +62,12 @@ function SetPage() {
           setBlockSets(blockSets)
           setNeighbours(neighbours)
         })
-        .catch((err) => alert(err.message))
+        .catch((err) => {
+          alert(err.message)
+          resetData()
+        })
+    } else {
+      resetData()
     }
   }, [setName])
 
@@ -130,11 +142,11 @@ function SetPage() {
           <SetListing set={neighbours?.after.near || null} />
           <SetListing set={neighbours?.after.far || null} />
         </Flex>
-        <Button onClick={() => goTo('/sets/' + neighbours?.before.near?.name)}>
+        <Button onClick={() => goTo('/sets/' + (neighbours?.before.near?.name || ""))}>
           <ArrowLeft />
         </Button>
         <Link to="/sets">See all sets</Link>
-        <Button onClick={() => goTo('/sets/' + neighbours?.after.near?.name)}>
+        <Button onClick={() => goTo('/sets/' + (neighbours?.after.near?.name || ""))}>
           <ArrowRight />
         </Button>
       </div>
