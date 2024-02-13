@@ -1,6 +1,8 @@
 import { expect, test } from 'vitest'
 import './_config'
 
+import { Set } from '../../../models/sets'
+
 import {
   getNeighbouringSets,
   getSetByName,
@@ -19,6 +21,7 @@ const firstSet = {
   block_code: 'lea',
   block: 'Core Set',
   icon_svg_uri: 'https://svgs.scryfall.io/sets/lea.svg?1691985600',
+  parent_set_code: null,
 }
 
 const mostRecentSet = {
@@ -32,6 +35,7 @@ const mostRecentSet = {
   icon_svg_uri: 'https://svgs.scryfall.io/sets/mom.svg?1691985600',
   block: null,
   block_code: null,
+  parent_set_code: null,
 }
 
 test('getSets', async () => {
@@ -65,6 +69,7 @@ const recentCoreSet = {
   block_code: 'lea',
   block: 'Core Set',
   icon_svg_uri: 'https://svgs.scryfall.io/sets/m20.svg?1691985600',
+  parent_set_code: null,
 }
 
 test('getSetsFromBlock', async () => {
@@ -83,26 +88,52 @@ test('getSetsFromBlock - not found', async () => {
   expect(sets).toHaveLength(0)
 })
 
+// ----------
+const assertNotNull = (obj: Set | null): Set => {
+  expect(obj).not.toBeNull()
+  return obj as Set
+}
+// ----------
+
 test('getNeighbouringSets', async () => {
   const sets = await getNeighbouringSets('2017-04-28')
   const { before, after } = sets
 
-  expect(before).toHaveLength(2)
-  expect(before[0].name).toBe('Shadows over Innistrad')
-  expect(before[1].name).toBe('Kaladesh')
+  const b_far = assertNotNull(before.far)
+  expect(b_far.name).toBe('Shadows over Innistrad')
+  const b_near = assertNotNull(before.near)
+  expect(b_near.name).toBe('Kaladesh')
 
-  expect(after).toHaveLength(2)
-  expect(after[0].name).toBe('Rivals of Ixalan')
-  expect(after[1].name).toBe('Dominaria')
+  const a_near = assertNotNull(after.near)
+  expect(a_near.name).toBe('Rivals of Ixalan')
+  const a_far = assertNotNull(after.far)
+  expect(a_far.name).toBe('Dominaria')
 })
 
 test('getNeighbouringSets - first set', async () => {
   const sets = await getNeighbouringSets('1993-08-05')
   const { before, after } = sets
 
-  expect(before).toHaveLength(0)
+  expect(before.far).toBeNull()
+  expect(before.near).toBeNull()
 
-  expect(after).toHaveLength(2)
-  expect(after[0].name).toBe('Antiquities')
-  expect(after[1].name).toBe('Revised Edition')
+  const a_near = assertNotNull(after.near)
+  expect(a_near.name).toBe('Antiquities')
+  const a_far = assertNotNull(after.far)
+  expect(a_far.name).toBe('Revised Edition')
 })
+
+test('getNeighbouringSets - second to last set', async () => {
+  const sets = await getNeighbouringSets('2023-02-03')
+  const { before, after } = sets
+
+  const b_far = assertNotNull(before.far)
+  expect(b_far.name).toBe('Innistrad: Crimson Vow')
+  const b_near = assertNotNull(before.near)
+  expect(b_near.name).toBe('Streets of New Capenna')
+
+  const a_near = assertNotNull(after.near)
+  expect(a_near.name).toBe('March of the Machine')
+  expect(after.far).toBeNull()
+})
+
