@@ -85,7 +85,7 @@ export function searchCards(
   conditions: QueryData,
   userId: string | null,
 ): Promise<Card[]> {
-  const { sets, colors, types, rarity, excludeLand, unowned } = conditions
+  const { sets, colors, types, rarity, excludeLand, unowned, includeDescription } = conditions
 
   const cardMatchesQuery = (qB: Knex.QueryBuilder) =>
     qB
@@ -142,6 +142,10 @@ export function searchCards(
   }
   if (excludeLand) {
     queryBuilder.whereNot('type_line', 'like', '%Land%')
+  }
+  if (includeDescription) {
+    queryBuilder.orWhere('oracle_text', 'like', `%${query}%`)
+    queryBuilder.orWhere('flavor_text', 'like', `%${query}%`)
   }
   if (userId && unowned) {
     queryBuilder.whereNotExists(function () {

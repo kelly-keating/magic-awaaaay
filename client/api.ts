@@ -82,11 +82,12 @@ export function searchCards(
   if (conditions.rarity) qs.push(`rarity=${conditions.rarity}`)
   if (conditions.unowned) qs.push(`unowned=${conditions.unowned}`)
   if (conditions.excludeLand) qs.push(`excludeLand=${conditions.excludeLand}`)
+  if (conditions.includeDescription) qs.push(`includeDescription=${conditions.includeDescription}`)
   if (qs.length) query += `?${qs.join('&')}`
 
   if (token) {
     return request
-      .get(`/api/v1/cards/search/${query}/loggedIn`)
+      .get(`/api/v1/cards/loggedIn/search/${query}`)
       .set('Authorization', `Bearer ${token}`)
       .then((res) => res.body)
   } else {

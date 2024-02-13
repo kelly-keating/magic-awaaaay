@@ -34,6 +34,7 @@ function Cards() {
     colors: null,
     sets: null,
     types: null,
+    includeDescription: null,
   } as QueryData)
 
   useEffect(() => {
@@ -84,6 +85,11 @@ function Cards() {
   const handleExcludeLand = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target
     setQueryData((data) => ({ ...data, excludeLand: checked ? true : null }))
+  }
+
+  const handleIncludeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target
+    setQueryData((data) => ({ ...data, includeDescription: checked ? true : null }))
   }
 
   // TODO: clear rarity somehow - x on tags?
@@ -190,6 +196,9 @@ function Cards() {
 
         <label htmlFor="exclude-land">Exclude land cards</label>
         <Switch id="exclude-land" onChange={handleExcludeLand} />
+
+        <label htmlFor="include-desc">Include text description in search</label>
+        <Switch id="include-desc" onChange={handleIncludeDescription} />
 
         <Select placeholder="Rarity" onChange={handleRarity}>
           <option value="common">Common</option>

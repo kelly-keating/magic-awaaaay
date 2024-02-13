@@ -50,7 +50,7 @@ router.post('/user', checkJwt, (req: JwtRequest, res) => {
     .catch((err) => res.status(500).json({ error: err.message }))
 })
 
-router.get('/search/:query/loggedIn', checkJwt, searchRoute)
+router.get('/loggedIn/search/:query', checkJwt, searchRoute)
 router.get('/search/:query', searchRoute)
 
 function searchRoute(req: JwtRequest, res: Response) {
@@ -58,6 +58,7 @@ function searchRoute(req: JwtRequest, res: Response) {
   const conditions = {
     unowned: req.query.unowned === 'true',
     excludeLand: req.query.excludeLand === 'true',
+    includeDescription: req.query.includeDescription === 'true',
     rarity: req.query.rarity as string,
     colors: (req.query.colors as string)?.split(','),
     sets: (req.query.sets as string)?.split(','),

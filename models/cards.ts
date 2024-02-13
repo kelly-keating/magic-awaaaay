@@ -105,6 +105,7 @@ export interface QueryData {
   colors: string[] | null
   sets: string[] | null
   types: string[] | null
+  includeDescription: boolean | null
 }
 
 /*
