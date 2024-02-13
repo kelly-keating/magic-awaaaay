@@ -34,7 +34,7 @@ function SetPage() {
   const uniqueCards = cards.length - variants.length
 
   const maxNum = cards.length ? cards[cards.length - 1].collector_number : 0
-  
+
   // ------
   // TODO: remove if problem solved, otherwise use hook
   const missingNumbers = [] as number[]
@@ -96,9 +96,7 @@ function SetPage() {
 
   if (!fullSet) {
     // TODO: actually make an error
-    return (
-      <p>oops no set</p>
-    )
+    return <p>oops no set</p>
   }
 
   return (
@@ -142,11 +140,12 @@ function SetPage() {
           <SetListing set={neighbours?.after.near || null} />
           <SetListing set={neighbours?.after.far || null} />
         </Flex>
-        <Button onClick={() => goTo('/sets/' + (neighbours?.before.near?.name || ""))}>
+        {/* BUG: should show up different when no neighbour set */}
+        <Button onClick={() => goTo('/sets/' + (neighbours?.before.near?.name || ''))}>
           <ArrowLeft />
         </Button>
         <Link to="/sets">See all sets</Link>
-        <Button onClick={() => goTo('/sets/' + (neighbours?.after.near?.name || ""))}>
+        <Button onClick={() => goTo('/sets/' + (neighbours?.after.near?.name || ''))}>
           <ArrowRight />
         </Button>
       </div>

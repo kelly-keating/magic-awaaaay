@@ -24,9 +24,7 @@ function SetListing({ set }: Props) {
         fallbackSrc="/mtg_icon.png"
         style={{ maxHeight: '50px', maxWidth: '50px' }}
       />
-      <p>
-        {set && <Link to={'/sets/' + set.name}>{set.name}</Link>}
-      </p>
+      <p>{set && <Link to={'/sets/' + set.name}>{set.name}</Link>}</p>
     </Tile>
   )
 }

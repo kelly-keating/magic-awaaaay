@@ -1,11 +1,7 @@
 import { expect, test } from 'vitest'
 import './_config'
 
-import {
-  getAllOwnedCards,
-  getCurrencies,
-  updateCurrencies
-} from '../db'
+import { getAllOwnedCards, getCurrencies, updateCurrencies } from '../db'
 
 test('getCurrencies', async () => {
   const currencies = await getCurrencies()
@@ -22,9 +18,9 @@ test('getAllOwnedCards', async () => {
 
   expect(cards[0].name).toBe('Razorfoot Griffin')
   expect(cards[1].name).toBe('Narset, Parter of Veils')
-  
+
   expect(cards[2].name).toEqual('Dingus Egg')
-  expect(cards[2].id).toEqual('65eb6cda-e512-40a8-9c1f-335b713409ff') 
+  expect(cards[2].id).toEqual('65eb6cda-e512-40a8-9c1f-335b713409ff')
 })
 
 test('updateCurrencies', async () => {

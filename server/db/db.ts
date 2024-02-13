@@ -61,7 +61,10 @@ export function getCardsByUserId(userId: string): Promise<Card[]> {
 }
 
 export function getCardById(id: string): Promise<Card | undefined> {
-  return db('cards').where('id', id).first().then((card) => card ? prepCardForClient(card) : undefined)
+  return db('cards')
+    .where('id', id)
+    .first()
+    .then((card) => (card ? prepCardForClient(card) : undefined))
 }
 
 export function getCardsFromSet(set: string): Promise<Card[]> {
@@ -85,7 +88,15 @@ export function searchCards(
   conditions: QueryData,
   userId: string | null,
 ): Promise<Card[]> {
-  const { sets, colors, types, rarity, excludeLand, unowned, includeDescription } = conditions
+  const {
+    sets,
+    colors,
+    types,
+    rarity,
+    excludeLand,
+    unowned,
+    includeDescription,
+  } = conditions
 
   const cardMatchesQuery = (qB: Knex.QueryBuilder) =>
     qB
@@ -234,9 +245,7 @@ export function getSetsFromBlock(blockName: string | null): Promise<Set[]> {
   return db('sets').where('block', blockName).orderBy('released_at')
 }
 
-export function getNeighbouringSets(
-  releasedAt: string,
-): Promise<Neighbours> {
+export function getNeighbouringSets(releasedAt: string): Promise<Neighbours> {
   return Promise.all([
     getTwoNeighbours(releasedAt, 'before'),
     getTwoNeighbours(releasedAt, 'after'),

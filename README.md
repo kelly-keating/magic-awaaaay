@@ -20,7 +20,6 @@ An API key needs to be obtained from [freecurrencyapi.com](https://app.freecurre
 FCA_KEY=fca_abcdefgh...
 ```
 
-
 Server runs on port 3000, client on port 5173.
 
 ```bash

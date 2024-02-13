@@ -6,7 +6,7 @@ import {
   checkUserCardExists,
   getAllCardInfoForUser,
   getCardsByUserId,
-  getUsersCards, 
+  getUsersCards,
   getUsersCardsFromSet,
   updateUserCard,
 } from '../db'

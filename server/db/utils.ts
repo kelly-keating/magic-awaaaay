@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardCounts,
-  DBCard,
-  UserCard,
-} from '../../models/cards'
+import { Card, CardCounts, DBCard, UserCard } from '../../models/cards'
 
 export function prepCardForDb(card: Card): DBCard {
   const { card_faces, color_identity, image_uris, prices, ...rest } = card

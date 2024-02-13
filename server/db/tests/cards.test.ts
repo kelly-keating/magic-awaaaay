@@ -54,14 +54,13 @@ test('getRandomCards', async () => {
   const cardTwo = (await getRandomCards())[0]
   const cardThree = (await getRandomCards())[0]
 
-  expect(
-    cardOne.name !== cardTwo.name || cardOne.name !== cardThree.name
-  ).toBe(true)
+  expect(cardOne.name !== cardTwo.name || cardOne.name !== cardThree.name)
+    .toBe(true)
 })
 
 test('updateCardPrices', async () => {
   const dragonId = 'b0dce4ac-f472-4f3b-b01a-eff0902a578f'
-  
+
   const card = await getCardById(dragonId)
   expect(card?.prices).toEqual({
     eur: '20.35',
@@ -74,7 +73,13 @@ test('updateCardPrices', async () => {
 
   await updateCardPrices(
     dragonId,
-    JSON.stringify({ usd: "1.23", eur: "1.23", tix: "1.23", usd_foil: "100.23", eur_foil: "100.23" })
+    JSON.stringify({
+      usd: '1.23',
+      eur: '1.23',
+      tix: '1.23',
+      usd_foil: '100.23',
+      eur_foil: '100.23',
+    }),
   )
 
   const updatedCard = await getCardById(dragonId)

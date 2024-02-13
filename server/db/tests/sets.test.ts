@@ -46,7 +46,7 @@ test('getSetByName', async () => {
   expect(set).toEqual(firstSet)
 
   const setTwo = await getSetByName('March of the Machine')
-  expect(setTwo).toEqual(mostRecentSet) 
+  expect(setTwo).toEqual(mostRecentSet)
 })
 
 test('getSetByName - not found', async () => {
@@ -85,7 +85,7 @@ test('getSetsFromBlock - not found', async () => {
 
 test('getNeighbouringSets', async () => {
   const sets = await getNeighbouringSets('2017-04-28')
-  const {before, after} = sets
+  const { before, after } = sets
 
   expect(before).toHaveLength(2)
   expect(before[0].name).toBe('Shadows over Innistrad')
@@ -98,7 +98,7 @@ test('getNeighbouringSets', async () => {
 
 test('getNeighbouringSets - first set', async () => {
   const sets = await getNeighbouringSets('1993-08-05')
-  const {before, after} = sets
+  const { before, after } = sets
 
   expect(before).toHaveLength(0)
 
