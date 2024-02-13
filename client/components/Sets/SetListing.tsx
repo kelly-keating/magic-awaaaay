@@ -5,7 +5,7 @@ import { Image } from '@chakra-ui/react'
 import { Tile } from '../utils'
 
 interface Props {
-  set: Set
+  set: Set | null
 }
 
 function SetListing({ set }: Props) {
@@ -19,13 +19,13 @@ function SetListing({ set }: Props) {
       alignItems="center"
     >
       <Image
-        src={set.icon_svg_uri}
-        alt={set.name + ' logo'}
+        src={set?.icon_svg_uri}
+        alt={(set?.name || 'default') + ' logo'}
         fallbackSrc="/mtg_icon.png"
         style={{ maxHeight: '50px', maxWidth: '50px' }}
       />
       <p>
-        <Link to={'/sets/' + set.name}>{set.name}</Link>
+        {set && <Link to={'/sets/' + set.name}>{set.name}</Link>}
       </p>
     </Tile>
   )

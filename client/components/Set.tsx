@@ -124,11 +124,11 @@ function SetPage() {
       />
       <div>
         <Flex>
-          {neighbours?.before.far && <SetListing key={neighbours.before.far.name} set={neighbours.before.far} />}
-          {neighbours?.before.near && <SetListing key={neighbours.before.near.name} set={neighbours.before.near} />}
-          {fullSet && <SetListing key={fullSet.name} set={fullSet} />}
-          {neighbours?.after.near && <SetListing key={neighbours.after.near.name} set={neighbours.after.near} />}
-          {neighbours?.after.far && <SetListing key={neighbours.after.far.name} set={neighbours.after.far} />}
+          <SetListing set={neighbours?.before.far || null} />
+          <SetListing set={neighbours?.before.near || null} />
+          <SetListing set={fullSet} />
+          <SetListing set={neighbours?.after.near || null} />
+          <SetListing set={neighbours?.after.far || null} />
         </Flex>
         <Button onClick={() => goTo('/sets/' + neighbours?.before.near?.name)}>
           <ArrowLeft />
