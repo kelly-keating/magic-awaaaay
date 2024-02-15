@@ -25,7 +25,8 @@ server.get('/api/v1/currencies', async (req, res) => {
 
   try {
     const currencies = await db.getCurrencies()
-    if (Date.now() - Date.parse(currencies.date) < 43200000) {
+    const twelveHours = 43200000
+    if (Date.now() - Date.parse(currencies.date) < twelveHours) {
       res.json(currencies)
     } else {
       const response = await request.get(url)
