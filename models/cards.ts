@@ -6,17 +6,17 @@ interface GenericCard {
   card_faces: [CardFace, CardFace] | null
   cmc: number
   collector_number: number
-  full_collector_number: string
+  full_collector_number: string | null
   color_identity: string[]
-  colors: string
+  colors: string | null
   edhrec_rank: number
-  flavor_text: string
+  flavor_text: string | null
   image_uris: ImageUris | null
   layout: string
-  loyalty: string
-  mana_cost: string
-  oracle_text: string
-  power: number
+  loyalty: string | null
+  mana_cost: string | null
+  oracle_text: string | null
+  power: number | null
   prices: Prices
   rarity: string
   scryfall_uri: string
@@ -24,12 +24,12 @@ interface GenericCard {
   set_name: string
   set_uri: string
   tcgplayer_id: number
-  toughness: number
+  toughness: number | null
   type_line: string
   uri: string
 }
 
-interface OneSidedCard extends GenericCard {
+export interface OneSidedCard extends GenericCard {
   card_faces: null
   image_uris: ImageUris
 }
@@ -72,9 +72,9 @@ export type DBCard = Omit<
   Card,
   'card_faces' | 'color_identity' | 'prices' | 'image_uris'
 > & {
-  card_faces: string
+  card_faces: string | null
   color_identity: string
-  image_uris: string
+  image_uris: string | null
   prices: string
 }
 
