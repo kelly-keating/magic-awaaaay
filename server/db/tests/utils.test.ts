@@ -1,7 +1,7 @@
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { condenseUserCards, prepCardForClient, prepCardForDb } from '../utils'
-import { OneSidedCard, TwoSidedCard } from '../../../models/cards'
+import { OneSidedCard, TwoSidedCard, UserCard } from '../../../models/cards'
 
 // ----- TEST DATA -----
 
@@ -32,7 +32,14 @@ const complexClientCard = { id: 'cb168e3c-2c78-4e70-a39b-06aa6a47998c', name: 'C
   prices: { usd: '0.12', usd_foil: '0.46', usd_etched: null, eur: '0.15', eur_foil: '0.26', tix: '0.03' },
 } as TwoSidedCard
 
-// TODO: Land card
+const landForDb = { id: '65e8080f-9e4a-4fad-9ea3-09d5e0e1c816', name: 'Forest', cmc: 0, collector_number: 350, full_collector_number: null, colors: '[]', edhrec_rank: null, flavor_text: null, layout: 'normal', loyalty: null, mana_cost: '', oracle_text: '({T}: Add {G}.)', power: null, rarity: 'common', scryfall_uri: 'https://scryfall.com/card/ody/350/forest?utm_source=api', set: 'ody', set_name: 'Odyssey', set_uri: 'https://api.scryfall.com/sets/b0d90d2d-494a-4224-bfa0-36ce5ee281b1', toughness: null, type_line: 'Basic Land — Forest', uri: 'https://api.scryfall.com/cards/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816', card_faces: null, color_identity: '["G"]', tcgplayer_id: null,
+  image_uris: '{"small":"https://cards.scryfall.io/small/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846","normal":"https://cards.scryfall.io/normal/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846","large":"https://cards.scryfall.io/large/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846","png":"https://cards.scryfall.io/png/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.png?1562913846","art_crop":"https://cards.scryfall.io/art_crop/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846","border_crop":"https://cards.scryfall.io/border_crop/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846"}',
+  prices: '{"usd":"0.41","usd_foil":"2.55","usd_etched":null,"eur":"0.20","eur_foil":"2.97","tix":"0.03"}'
+}
+const landForClient = { id: '65e8080f-9e4a-4fad-9ea3-09d5e0e1c816', name: 'Forest', cmc: 0, collector_number: 350, full_collector_number: null, colors: '[]', edhrec_rank: null, flavor_text: null, layout: 'normal', loyalty: null, mana_cost: '', oracle_text: '({T}: Add {G}.)', power: null, rarity: 'common', scryfall_uri: 'https://scryfall.com/card/ody/350/forest?utm_source=api', set: 'ody', set_name: 'Odyssey', set_uri: 'https://api.scryfall.com/sets/b0d90d2d-494a-4224-bfa0-36ce5ee281b1', toughness: null, type_line: 'Basic Land — Forest', uri: 'https://api.scryfall.com/cards/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816', card_faces: null, color_identity: ['G'], tcgplayer_id: null,
+  image_uris: { small: 'https://cards.scryfall.io/small/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846', normal: 'https://cards.scryfall.io/normal/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846', large: 'https://cards.scryfall.io/large/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846', png: 'https://cards.scryfall.io/png/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.png?1562913846', art_crop: 'https://cards.scryfall.io/art_crop/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846', border_crop: 'https://cards.scryfall.io/border_crop/front/6/5/65e8080f-9e4a-4fad-9ea3-09d5e0e1c816.jpg?1562913846' },
+  prices: { usd: '0.41', usd_foil: '2.55', usd_etched: null, eur: '0.20', eur_foil: '2.97', tix: '0.03', }
+} as OneSidedCard
 
 // -----
 
@@ -46,6 +53,11 @@ describe('prepCardForClient', () => {
     const preppedCard = prepCardForClient(complexDbCard)
     expect(preppedCard).toEqual(complexClientCard)
   })
+
+  it('returns a correctly formatted land card', () => {
+    const preppedCard = prepCardForClient(landForDb)
+    expect(preppedCard).toEqual(landForClient)
+  })
 })
 
 describe('prepCardForDb', () => {
@@ -58,6 +70,49 @@ describe('prepCardForDb', () => {
     const preppedCard = prepCardForDb(complexClientCard)
     expect(preppedCard).toEqual(complexDbCard)
   })
+
+  it('returns a correctly formatted land card', () => {
+    const preppedCard = prepCardForDb(landForClient)
+    expect(preppedCard).toEqual(landForDb)
+  })
 })
 
-test.todo('condenseUserCards')
+describe('condenseUserCards', () => {
+  it('returns an empty object when no user cards provided', () => {
+    const userCards = [] as UserCard[]
+    const actual = condenseUserCards(userCards)
+    expect(actual).toEqual({})
+  })
+
+  it('successfully creates a card counts object (ONE CARD)', () => {
+    const userCards = [
+      { id: '1', user_id: 'user_1', card_id: 'card_1', quantity: 2, foil_quantity: 0 },
+    ]
+
+    const expected = {
+      card_1: { normal: 2, foil: 0 },
+    }
+
+    const actual = condenseUserCards(userCards)
+    expect(actual).toEqual(expected)
+  })
+
+  it('successfully creates a card counts object (MANY CARDS)', () => {
+    const userCards = [
+      { id: '1', user_id: 'user_1', card_id: 'card_1', quantity: 2, foil_quantity: 0 },
+      { id: '2', user_id: 'user_1', card_id: 'card_100', quantity: 0, foil_quantity: 0 },
+      { id: '3', user_id: 'user_1', card_id: 'card_17', quantity: 0, foil_quantity: 16 },
+      { id: '4', user_id: 'user_1', card_id: 'card_17823a', quantity: 28, foil_quantity: 107 },
+    ]
+
+    const expected = {
+      card_1: { normal: 2, foil: 0 },
+      card_100: { normal: 0, foil: 0 },
+      card_17: { normal: 0, foil: 16 },
+      card_17823a: { normal: 28, foil: 107 },
+    }
+
+    const actual = condenseUserCards(userCards)
+    expect(actual).toEqual(expected)
+  })
+})

@@ -9,7 +9,7 @@ interface GenericCard {
   full_collector_number: string | null
   color_identity: string[]
   colors: string | null
-  edhrec_rank: number
+  edhrec_rank: number | null
   flavor_text: string | null
   image_uris: ImageUris | null
   layout: string
@@ -23,7 +23,7 @@ interface GenericCard {
   set: string
   set_name: string
   set_uri: string
-  tcgplayer_id: number
+  tcgplayer_id: number | null
   toughness: number | null
   type_line: string
   uri: string
@@ -49,6 +49,11 @@ interface CardFace {
   artist_id: string
   illustration_id: string
   image_uris: ImageUris
+  power: string | null
+  toughness: string | null
+  flavor_text: string | null
+  flavor_name?: string | null
+  color_indicator?: string[] | null
 }
 
 export interface Prices {
