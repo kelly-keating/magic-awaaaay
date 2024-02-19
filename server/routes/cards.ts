@@ -40,7 +40,7 @@ router.post('/user', checkJwt, (req: JwtRequest, res) => {
     quantity: normal,
     foil_quantity: foil,
     user_id: userId,
-  } as UserCard
+  } as Omit<UserCard, 'id'>
 
   db.checkUserCardExists(cardId, userId)
     .then((alreadyOwned) =>

@@ -10,12 +10,14 @@ exports.seed = async function (knex) {
       user_id: 'auth0|nonExistentUser',
       card_id: '21c950d7-b4f6-4902-8c9a-98f2933f9fa5',
       quantity: 1,
+      foil_quantity: 0,
     },
     {
       id: 5,
       user_id: 'auth0|testUser',
       card_id: '9dc4d69c-f61d-4122-9e0b-c88aa905d159',
       quantity: 1,
+      foil_quantity: 0,
     },
     {
       id: 7,
@@ -28,6 +30,7 @@ exports.seed = async function (knex) {
       id: 6,
       user_id: 'auth0|testUser',
       card_id: '65eb6cda-e512-40a8-9c1f-335b713409ff',
+      quantity: 0,
       foil_quantity: 10,
     },
   ])

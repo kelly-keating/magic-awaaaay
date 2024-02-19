@@ -188,14 +188,14 @@ export function getUsersCardsFromSet(
     .then(condenseUserCards)
 }
 
-export function addCardToUser(newCard: UserCard): Promise<UserCard> {
+export function addCardToUser(newCard: Omit<UserCard, 'id'>): Promise<UserCard> {
   return db('users_cards')
     .insert(newCard)
     .returning('*')
     .then((result) => result[0])
 }
 
-export function updateUserCard(card: UserCard): Promise<UserCard> {
+export function updateUserCard(card: UserCard | Omit<UserCard, 'id'>): Promise<UserCard> {
   return db('users_cards')
     .where('card_id', card.card_id)
     .andWhere('user_id', card.user_id)
