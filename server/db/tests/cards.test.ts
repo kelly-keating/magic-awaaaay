@@ -54,8 +54,11 @@ test('getRandomCards', async () => {
   const cardTwo = (await getRandomCards())[0]
   const cardThree = (await getRandomCards())[0]
 
-  expect(cardOne.name !== cardTwo.name || cardOne.name !== cardThree.name)
-    .toBe(true)
+  // double to account for randomness
+  const oneDoesNotMatchTwo = cardOne.name !== cardTwo.name
+  const oneDoesNotMatchThree = cardOne.name !== cardThree.name
+
+  expect(oneDoesNotMatchTwo || oneDoesNotMatchThree).toBe(true)
 })
 
 test('updateCardPrices', async () => {

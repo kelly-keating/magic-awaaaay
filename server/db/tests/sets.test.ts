@@ -136,4 +136,3 @@ test('getNeighbouringSets - second to last set', async () => {
   expect(a_near.name).toBe('March of the Machine')
   expect(after.far).toBeNull()
 })
-
